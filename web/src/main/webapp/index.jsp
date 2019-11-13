@@ -12,6 +12,7 @@
 </head>
 <body>
 <h3>Hello, welcome to Company background control system !</h3>
+<jsp:forward page="pages/all-admin-index.jsp"></jsp:forward>
 
 </body>
 </html>
