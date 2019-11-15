@@ -6,6 +6,25 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script>
+<%--    异步请求用于获取主页面内容区域的信息--%>
+    function getContent(url, info) {
+        $.get(url, info, function (data) {
+            t = typeof data;
+
+            if (t === 'string') {
+                // 返回结果不是 json 时加载到页面中
+                $("#mainContennt").html(data);
+            } else {
+            //    返回结果是 json 时， 做解析，报告错误
+            //     alert(data.error+ " " + data.errorMsg);
+                if (data.error == true) {
+                    alert(data.errorMsg);
+                }
+            }
+        })
+    }
+</script>
 <!-- 导航侧栏 -->
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -90,7 +109,8 @@
                 <ul class="treeview-menu">
 
                     <li id="charts-chartjs">
-                        <a href="${pageContext.request.contextPath}/product/productList">
+                        <%--                        <a href="${pageContext.request.contextPath}/product/productList">--%>
+                        <a href="javascript:void(0);" onclick="getContent('${pageContext.request.contextPath}/product/productList')">
                             <i class="fa fa-circle-o"></i> 产品管理
                         </a>
                     </li>

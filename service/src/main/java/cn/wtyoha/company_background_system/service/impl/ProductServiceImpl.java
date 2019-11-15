@@ -17,4 +17,15 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAll() {
         return productDao.findAll();
     }
+
+    @Override
+    public boolean saveProduct(Product product) {
+        try {
+            productDao.saveProduct(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
