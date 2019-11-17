@@ -7,18 +7,20 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
-<%--    异步请求用于获取主页面内容区域的信息--%>
-    function getContent(url, info) {
-        $.get(url, info, function (data) {
-            t = typeof data;
+    <%--    异步请求用于获取主页面内容区域的信息--%>
 
+    function getContent(url, info, successMsg) {
+        $.get(url, info, function (data) {
+            var t = typeof data;
             if (t === 'string') {
                 // 返回结果不是 json 时加载到页面中
                 $("#mainContennt").html(data);
+                if (successMsg != null && successMsg !== '') {
+                    alert(successMsg);
+                }
             } else {
-            //    返回结果是 json 时， 做解析，报告错误
-            //     alert(data.error+ " " + data.errorMsg);
-                if (data.error == true) {
+                //    返回结果是 json 时， 做解析，报告错误
+                if (data.error === true) {
                     alert(data.errorMsg);
                 }
             }
@@ -71,25 +73,25 @@
                 </a>
                 <ul class="treeview-menu">
 
-                    <li id="admin-login">
+                    <li id="user-manage">
                         <a href="all-admin-login.html">
                             <i class="fa fa-circle-o"></i> 用户管理
                         </a>
                     </li>
 
-                    <li id="admin-register">
+                    <li id="role-manage">
                         <a href="all-admin-register.html">
                             <i class="fa fa-circle-o"></i> 角色管理
                         </a>
                     </li>
 
-                    <li id="admin-404">
+                    <li id="resource-authority">
                         <a href="all-admin-404.html">
                             <i class="fa fa-circle-o"></i> 资源权限管理
                         </a>
                     </li>
 
-                    <li id="admin-500">
+                    <li id="view-log">
                         <a href="all-admin-500.html">
                             <i class="fa fa-circle-o"></i> 访问日志
                         </a>
@@ -108,15 +110,14 @@
                 </a>
                 <ul class="treeview-menu">
 
-                    <li id="charts-chartjs">
-                        <%--                        <a href="${pageContext.request.contextPath}/product/productList">--%>
-                        <a href="javascript:void(0);" onclick="getContent('${pageContext.request.contextPath}/product/productList')">
+                    <li id="product-manage">
+                        <a href="${pageContext.request.contextPath}/product/productList">
                             <i class="fa fa-circle-o"></i> 产品管理
                         </a>
                     </li>
 
                     <li id="charts-morris">
-                        <a href="all-charts-morris.html">
+                        <a href="order-form-manage">
                             <i class="fa fa-circle-o"></i> 订单管理
                         </a>
                     </li>

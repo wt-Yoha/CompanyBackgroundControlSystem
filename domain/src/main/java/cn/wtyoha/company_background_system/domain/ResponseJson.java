@@ -4,6 +4,15 @@ public class ResponseJson {
     boolean isError;
     String data;
     String errorMsg;
+    String successMsg;
+
+    public String getSuccessMsg() {
+        return successMsg;
+    }
+
+    public void setSuccessMsg(String successMsg) {
+        this.successMsg = successMsg;
+    }
 
     public boolean isError() {
         return isError;
@@ -35,6 +44,7 @@ public class ResponseJson {
                 "isError=" + isError +
                 ", data='" + data + '\'' +
                 ", errorMsg='" + errorMsg + '\'' +
+                ", successMsg='" + successMsg + '\'' +
                 '}';
     }
 }

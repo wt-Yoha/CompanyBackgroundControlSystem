@@ -5,10 +5,12 @@ import cn.wtyoha.company_background_system.domain.Product;
 import cn.wtyoha.company_background_system.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductDao productDao;
@@ -19,13 +21,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean saveProduct(Product product) {
-        try {
-            productDao.saveProduct(product);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    public void saveProduct(Product product) {
+        productDao.saveProduct(product);
+    }
+
+    @Override
+    public void deleteProduct(String productNum) {
+        productDao.deleteProduct(productNum);
+    }
+
+    @Override
+    public void deleteList(String[] productNums) {
+        int count = 0;
+        for (String productNum : productNums) {
+            count++;
+            if (count == 2) {
+                throw new RuntimeException("my exception");
+            }
+            deleteProduct(productNum);
         }
-        return true;
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        productDao.updateProduct(product);
     }
 }

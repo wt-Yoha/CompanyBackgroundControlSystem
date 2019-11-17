@@ -17,7 +17,7 @@ public class Product {
     String productStatusStr;
 
     public void setDepartureTimeStr(String departureTimeStr) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd");
         this.departureTimeStr = departureTimeStr;
         departureTime = sdf.parse(departureTimeStr);
         setDepartureTime(departureTime);

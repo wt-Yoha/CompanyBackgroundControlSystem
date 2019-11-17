@@ -44,6 +44,26 @@ public class TestProductService {
     }
 
     @Test
+    public void deleteProduct() {
+        productService.deleteProduct("3432432");
+        testFindAll();
+    }
+
+    @Test
+    public void updateProduct() throws ParseException {
+        Product product = new Product();
+        product.setProductNum("3432432");
+        product.setProductName("哈尔滨-漠河9日游");
+        product.setCityName("北京");
+        product.setDepartureTimeStr("2019-11-22");
+        product.setProductPrice(2440.0);
+        product.setProductStatusStr("关闭");
+        product.setProductDesc("冰天雪地");
+        productService.updateProduct(product);
+        testFindAll();
+    }
+
+    @Test
     public void testDao() {
         productDao.findAll().forEach(System.out::println);
     }

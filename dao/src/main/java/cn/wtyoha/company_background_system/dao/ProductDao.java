@@ -14,4 +14,11 @@ public interface ProductDao {
 
     @Update("insert into product values(REPLACE(UUID(), '-', ''), #{productNum}, #{productName}, #{cityName}, #{departureTime}, #{productPrice}, #{productDesc}, #{productStatus})")
     void saveProduct(Product product);
+
+    @Update("delete from product where productNum = #{pid}")
+    void deleteProduct(String productNum);
+
+    @Update("update product set productName = #{productName}, cityName=#{cityName}, departureTime=#{departureTime}, productPrice=#{productPrice}, productDesc=#{productDesc}, productStatus=#{productStatus} " +
+            "where productNum = #{productNum}")
+    void updateProduct(Product product);
 }
