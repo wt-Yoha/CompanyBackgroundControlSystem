@@ -16,4 +16,34 @@ public interface OrderDao {
     })
     List<Order> findAll();
 
+    @Select("SELECT o.*, m.`name`, p.`productName` "+
+            "FROM orderform o, member m, product p "+
+            "WHERE "+
+            "o.`memberId` = m.`id` AND "+
+            "o.`productId` = p.`id` ")
+    List<Order> findALL2();
+
+    @Update("delete from orderform where id = #{id}")
+    void deleteOrder(String id);
+
+    @Update("update orderform set orderNum = #{orderNum}, " +
+            "orderTime = #{orderTimeStr}, " +
+            "peopleCount = #{peopleCount}, " +
+            "orderDesc = #{orderDesc}, " +
+            "orderStatus = #{orderStatus}, " +
+            "productId = #{product.id}, " +
+            "memberId = #{member.id} "+
+            "where id = #{id}")
+    void updateOrder(Order order);
+
+    @Update("insert into orderform(id, orderNum, orderTime, peopleCount, orderDesc, payType, orderStatus, productId, memberId)" +
+            " values (REPLACE(UUID(), '-', ''), #{orderNum}, " +
+            "#{orderTimeStr}, " +
+            "#{peopleCount}, " +
+            "#{orderDesc}, " +
+            "#{payType}, " +
+            "#{orderStatus}, " +
+            "#{product.id}, " +
+            "#{member.id}) ")
+    void saveOrder(Order order);
 }

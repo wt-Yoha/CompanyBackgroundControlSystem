@@ -50,6 +50,16 @@ public class Traveller {
 
     public void setCredentialsType(int credentialsType) {
         this.credentialsType = credentialsType;
+        switch (credentialsType) {
+            case 0:
+                credentialsTypeStr = "身份证";
+                break;
+            case 1:
+                credentialsTypeStr = "护照";
+                break;
+            case 2:
+                credentialsTypeStr = "军官证";
+        }
     }
 
     public String getCredentialsTypeStr() {
@@ -58,6 +68,15 @@ public class Traveller {
 
     public void setCredentialsTypeStr(String credentialsTypeStr) {
         this.credentialsTypeStr = credentialsTypeStr;
+        if ("身份证".equals(credentialsTypeStr)) {
+            credentialsType = 0;
+        }
+        if ("护照".equals(credentialsTypeStr)) {
+            credentialsType = 1;
+        }
+        if ("军官证".equals(credentialsTypeStr)) {
+            credentialsType = 2;
+        }
     }
 
     public String getCredentialsNum() {
