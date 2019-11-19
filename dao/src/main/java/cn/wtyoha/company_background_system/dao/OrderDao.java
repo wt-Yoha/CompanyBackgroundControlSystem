@@ -23,6 +23,16 @@ public interface OrderDao {
             "o.`productId` = p.`id` ")
     List<Order> findALL2();
 
+
+    @Select("select * from orderform where id = #{id}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "productId", property = "product", one = @One(select = "cn.wtyoha.company_background_system.dao.ProductDao.findById")),
+            @Result(column = "memberId", property = "member", one = @One(select = "cn.wtyoha.company_background_system.dao.MemberDao.findById")),
+            @Result(column = "id", property = "travellers", many = @Many(select = "cn.wtyoha.company_background_system.dao.TravellerDao.findByOrderId"))
+    })
+    Order findById(String id);
+
     @Update("delete from orderform where id = #{id}")
     void deleteOrder(String id);
 
@@ -46,4 +56,10 @@ public interface OrderDao {
             "#{product.id}, " +
             "#{member.id}) ")
     void saveOrder(Order order);
+
+    @Update("update orderform set orderStatus = 1 where id = #{id}")
+    void openOrder(String id);
+
+    @Update("update orderform set orderStatus = 0 where id = #{id}")
+    void closeOrder(String id);
 }

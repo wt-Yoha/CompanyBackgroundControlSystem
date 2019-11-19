@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class Order {
     String id; // 订单 id
@@ -20,7 +21,7 @@ public class Order {
     Product product; // 对应产品
     String memberName; // 对应会员名
     Member member; // 下单会员
-    String[] traveller; // 参加游客编号
+    List<Traveller> travellers; // 参加游客编号
 
     public String getProductName() {
         return productName;
@@ -170,12 +171,12 @@ public class Order {
         this.member = member;
     }
 
-    public String[] getTraveller() {
-        return traveller;
+    public List<Traveller> getTravellers() {
+        return travellers;
     }
 
-    public void setTraveller(String[] traveller) {
-        this.traveller = traveller;
+    public void setTravellers(List<Traveller> travellers) {
+        this.travellers = travellers;
     }
 
     @Override
@@ -193,7 +194,7 @@ public class Order {
                 ", orderStatusStr='" + orderStatusStr + '\'' +
                 ", product=" + product +
                 ", member=" + member +
-                ", traveller=" + Arrays.toString(traveller) +
+                ", traveller=" + travellers +
                 '}';
     }
 }

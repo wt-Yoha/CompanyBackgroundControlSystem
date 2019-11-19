@@ -1,5 +1,8 @@
 package cn.wtyoha.company_background_system.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Traveller {
     // 旅客表
     String id;
@@ -101,6 +104,16 @@ public class Traveller {
 
     public void setTravellerTypeStr(String travellerTypeStr) {
         this.travellerTypeStr = travellerTypeStr;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return id == null ? (((Traveller) obj).getId() == null) : id.equals(((Traveller) obj).getId());
     }
 
     @Override

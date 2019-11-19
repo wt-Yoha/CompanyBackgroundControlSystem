@@ -77,4 +77,9 @@ public class TestOrderService {
         orderDao.deleteOrder("ef9589bf0a7b11ea8fc4087190f3bc94");
     }
 
+    @Test
+    public void daoFindById() {
+        System.out.println(orderDao.findById("45045c2105b911eab143087190f3bc94"));
+    }
+
 }
