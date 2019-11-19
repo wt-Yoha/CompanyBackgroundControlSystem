@@ -12,6 +12,9 @@ public interface ProductDao {
     @Select("select * from product")
     List<Product> findAll();
 
+    @Select("select * from product where id = #{pid}")
+    Product findById(String productId);
+
     @Update("insert into product values(REPLACE(UUID(), '-', ''), #{productNum}, #{productName}, #{cityName}, #{departureTime}, #{productPrice}, #{productDesc}, #{productStatus})")
     void saveProduct(Product product);
 

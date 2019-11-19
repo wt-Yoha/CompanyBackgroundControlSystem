@@ -27,7 +27,7 @@ public class TestProductService {
 
     @Test
     public void testFindAll() {
-        productService.findAll().forEach(System.out::println);
+        productService.findAll(1, 5).forEach(System.out::println);
     }
 
     @Test
@@ -61,6 +61,11 @@ public class TestProductService {
         product.setProductDesc("冰天雪地");
         productService.updateProduct(product);
         testFindAll();
+    }
+
+    @Test
+    public void findById() {
+        System.out.println(productDao.findById("1fe547f6094311ea8756000ec657fad1"));
     }
 
     @Test
