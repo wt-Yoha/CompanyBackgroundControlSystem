@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.github.pagehelper.PageInfo" %><%--
   Created by IntelliJ IDEA.
   User: wtyoha
   Date: 2019/11/16
@@ -123,6 +123,33 @@
             alert(msg);
         }
     </script>
+    <script>
+        function deleteList() {
+            if (confirm("你确认要删除吗？")) {
+                var form = $("#productList");
+                form.prop("action", "${pageContext.request.contextPath}/product/deleteList");
+                form.submit();
+            }
+        }
+        function openProduct() {
+            if (confirm("你确认要开启吗？")) {
+                var form = $("#productList");
+                form.prop("action", "${pageContext.request.contextPath}/product/availableProduct?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}&isOpen=true");
+                form.submit();
+            }
+        }
+        function closeProduct() {
+            if (confirm("你确认要关闭吗？")) {
+                var form = $("#productList");
+                form.prop("action", "${pageContext.request.contextPath}/product/availableProduct?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}");
+                form.submit();
+            }
+        }
+        function changePageSize(indexs) {
+            var size = $(indexs).val();
+            location.href="${pageContext.request.contextPath}/product/productList?currentPage=1&size="+size;
+        }
+    </script>
 </head>
 
 
@@ -173,28 +200,21 @@
                             <div class="form-group form-inline">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" title="新建"
-                                            onclick='location.href="${pageContext.request.contextPath}/product/edit"'>
+                                            onclick='location.href="${pageContext.request.contextPath}/product/new"'>
                                         <i
                                                 class="fa fa-file-o"></i> 新建
                                     </button>
-                                    <script>
-                                        function deleteList() {
-                                            var form = $("#productList");
-                                            form.prop("action", "${pageContext.request.contextPath}/product/deleteList");
-                                            form.submit();
-                                        }
-                                    </script>
                                     <button type="button" class="btn btn-default" title="删除"
                                             onclick='deleteList()'><i class="fa fa-trash-o"></i> 删除
                                     </button>
                                     <button type="button" class="btn btn-default" title="开启"
-                                            onclick='confirm("你确认要开启吗？")'><i class="fa fa-check"></i> 开启
+                                            onclick='openProduct()'><i class="fa fa-check"></i> 开启
                                     </button>
-                                    <button type="button" class="btn btn-default" title="屏蔽"
-                                            onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽
+                                    <button type="button" class="btn btn-default" title="关闭"
+                                            onclick='closeProduct()'><i class="fa fa-ban"></i>关闭
                                     </button>
                                     <button type="button" class="btn btn-default" title="刷新"
-                                            onclick="location.href='${pageContext.request.contextPath}/product/productList'">
+                                            onclick="location.href='${pageContext.request.contextPath}/product/productList?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}'">
                                         <i class="fa fa-refresh"></i> 刷新
                                     </button>
                                 </div>
@@ -235,7 +255,7 @@
 <%--                                        <td><input name="productNum${i.count}" type="checkbox" value="${product.productNum}"></td>--%>
                                         <td><input name="productNum" type="checkbox" value="${product.productNum}"></td>
                                         <td>
-                                                ${i.count}
+                                                ${i.count+(pageInfo.pageNum-1)*pageInfo.pageSize}
                                         </td>
                                         <td>${product.productNum}</td>
                                         <td>${product.productName}</td>
@@ -253,7 +273,14 @@
                                                     onclick='location.href="productEdit.jsp"'>详情
                                             </button>
                                             <button type="button" class="btn bg-olive btn-xs"
-                                                    onclick='location.href="productEdit.jsp"'>编辑
+                                                    onclick='location.href="${pageContext.request.contextPath}/product/edit"+
+                                                            "?productNum=${product.productNum}"+
+                                                            "&productName=${product.productName}"+
+                                                            "&productPrice=${product.productPrice}"+
+                                                            "&cityName=${product.cityName}"+
+                                                            "&departureTimeStr=${product.departureTimeStr}"+
+                                                            "&productDesc=${product.productDesc}"+
+                                                            "&productStatus=${product.productStatus}";'>编辑
                                             </button>
                                         </td>
                                     </tr>
@@ -276,13 +303,30 @@
                 <div class="box-footer">
                     <div class="pull-left">
                         <div class="form-group form-inline">
-                            总共2 页，共14 条数据。 每页
-                            <select class="form-control">
-                                <option>10</option>
-                                <option>15</option>
-                                <option>20</option>
-                                <option>50</option>
-                                <option>80</option>
+                            总共${pageInfo.pages} 页，共${pageInfo.total} 条数据。 每页
+                            <select class="form-control" onchange="changePageSize(this)">
+                                <option>${pageInfo.pageSize}</option>
+                                <c:if test="${pageInfo.pageSize != 2}">
+                                    <option>2</option>
+                                </c:if>
+                                <c:if test="${pageInfo.pageSize != 5}">
+                                    <option>5</option>
+                                </c:if>
+                                <c:if test="${pageInfo.pageSize != 10}">
+                                    <option>10</option>
+                                </c:if>
+                                <c:if test="${pageInfo.pageSize != 15}">
+                                    <option>15</option>
+                                </c:if>
+                                <c:if test="${pageInfo.pageSize != 25}">
+                                    <option>25</option>
+                                </c:if>
+                                <c:if test="${pageInfo.pageSize != 50}">
+                                    <option>50</option>
+                                </c:if>
+                                <c:if test="${pageInfo.pageSize != 80}">
+                                    <option>80</option>
+                                </c:if>
                             </select> 条
                         </div>
                     </div>
@@ -290,17 +334,20 @@
                     <div class="box-tools pull-right">
                         <ul class="pagination">
                             <li>
-                                <a href="#" aria-label="Previous">首页</a>
+                                <a href="${pageContext.request.contextPath}/product/productList?currentPage=1&size=${pageInfo.pageSize}" aria-label="Previous">首页</a>
                             </li>
-                            <li><a href="#">上一页</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">下一页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/product/productList?currentPage=${pageInfo.prePage}&size=${pageInfo.pageSize}">上一页</a></li>
+                            <c:forEach begin="${startPageNo}" end="${endPageNo}" var="i">
+                                <c:if test="${i == pageInfo.pageNum}">
+                                    <li><a style="background: #f39c12" href="${pageContext.request.contextPath}/product/productList?currentPage=${i}&size=${pageInfo.pageSize}">${i}</a></li>
+                                </c:if>
+                                <c:if test="${i != pageInfo.pageNum}">
+                                    <li><a href="${pageContext.request.contextPath}/product/productList?currentPage=${i}&size=${pageInfo.pageSize}">${i}</a></li>
+                                </c:if>
+                            </c:forEach>
+                            <li><a href="${pageContext.request.contextPath}/product/productList?currentPage=${pageInfo.nextPage}&size=${pageInfo.pageSize}">下一页</a></li>
                             <li>
-                                <a href="#" aria-label="Next">尾页</a>
+                                <a href="${pageContext.request.contextPath}/product/productList?currentPage=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">尾页</a>
                             </li>
                         </ul>
                     </div>
@@ -332,7 +379,7 @@
 <script src="../plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <script src="../plugins/knob/jquery.knob.js"></script>
 <script src="../plugins/daterangepicker/moment.min.js"></script>
-<script src="../plugins/daterangepicker/daterangepicker.js"></script>
+<%--<script src="../plugins/daterangepicker/daterangepicker.js"></script>--%>
 <script src="../plugins/daterangepicker/daterangepicker.zh-CN.js"></script>
 <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="../plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
@@ -352,7 +399,7 @@
 <script src="../plugins/ckeditor/ckeditor.js"></script>
 <script src="../plugins/input-mask/jquery.inputmask.js"></script>
 <script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<%--<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>--%>
 <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="../plugins/chartjs/Chart.min.js"></script>

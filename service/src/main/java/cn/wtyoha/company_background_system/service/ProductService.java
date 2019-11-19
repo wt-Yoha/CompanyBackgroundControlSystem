@@ -5,7 +5,7 @@ import cn.wtyoha.company_background_system.domain.Product;
 import java.util.List;
 
 public interface ProductService {
-    List<Product> findAll();
+    List<Product> findAll(int currentPage, int pageSize);
 
     void saveProduct(Product product);
 
@@ -14,4 +14,6 @@ public interface ProductService {
     void deleteList(String[] productNums);
 
     void updateProduct(Product product);
+
+    void availableProductList(String[] productNums, boolean available);
 }

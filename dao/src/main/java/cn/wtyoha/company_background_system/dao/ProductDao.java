@@ -18,6 +18,12 @@ public interface ProductDao {
     @Update("delete from product where productNum = #{pid}")
     void deleteProduct(String productNum);
 
+    @Update("update product set productStatus = 1 where productNum = #{pid}")
+    void availableProduct(String productNum);
+
+    @Update("update product set productStatus = 0 where productNum = #{pid}")
+    void disAvailableProduct(String productNum);
+
     @Update("update product set productName = #{productName}, cityName=#{cityName}, departureTime=#{departureTime}, productPrice=#{productPrice}, productDesc=#{productDesc}, productStatus=#{productStatus} " +
             "where productNum = #{productNum}")
     void updateProduct(Product product);

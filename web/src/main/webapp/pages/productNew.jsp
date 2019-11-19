@@ -181,14 +181,14 @@
         <section class="content">
 
             <!--订单信息-->
-            <form id="productInfo" action="${pageContext.request.contextPath}/product/editSubmit" method="post">
+            <form id="productInfo" action="${pageContext.request.contextPath}/product/newSubmit" method="post">
                 <div class="panel panel-default">
                     <div class="panel-heading">产品信息</div>
                     <div class="row data-type">
 
                         <div class="col-md-2 title">产品编号</div>
                         <div class="col-md-4 data">
-                            <input type="text" class="form-control" value="${product.productNum}" name="productNum" readonly="readonly">
+                            <input type="text" class="form-control" placeholder="产品编号" value="" name="productNum">
                         </div>
 
                         <div class="col-md-2 title">出发时间</div>
@@ -198,43 +198,36 @@
                                     <i class="fa fa-calendar"></i>
                                 </div>
                                 <input type="text" class="form-control pull-right" id="datepicker-a3"
-                                       name="departureTimeStr" value="${product.departureTimeStr}">
+                                       name="departureTimeStr">
                             </div>
                         </div>
 
                         <div class="col-md-2 title">产品名称</div>
                         <div class="col-md-4 data">
-                            <input type="text" class="form-control" value="${product.productName}" name="productName">
+                            <input type="text" class="form-control" placeholder="产品名称" name="productName">
                         </div>
 
                         <div class="col-md-2 title">出发城市</div>
                         <div class="col-md-4 data">
-                            <input type="text" class="form-control" name="cityName" value="${product.cityName}"/>
+                            <input type="text" class="form-control" name="cityName" placeholder="出发城市"/>
                         </div>
 
                         <div class="col-md-2 title">产品价格</div>
                         <div class="col-md-4 data">
-                            <input type="text" class="form-control" name="productPrice"
-                                   value="${product.productPrice}"/>
+                            <input type="text" class="form-control" name="productPrice" placeholder="产品价格"/>
                         </div>
 
                         <div class="col-md-2 title">产品状态</div>
                         <div class="col-md-4 data">
                             <select class="form-control select2" name="productStatusStr" style="width: 100%;">
-                                <c:if test="${product.productStatus == 1}">
-                                    <option value="">关闭</option>
-                                    <option value="" selected="selected">开启</option>
-                                </c:if>
-                                <c:if test="${product.productStatus == 0}">
-                                    <option value="">开启</option>
-                                    <option value="" selected="selected">关闭</option>
-                                </c:if>
+                                <option value="" selected="selected">关闭</option>
+                                <option value="">开启</option>
                             </select>
                         </div>
 
                         <div class="col-md-2 title rowHeight2x">其他信息</div>
                         <div class="col-md-10 data rowHeight2x">
-                            <textarea class="form-control" rows="3" name="productDesc">${product.productDesc}</textarea>
+                            <textarea class="form-control" rows="3" placeholder="其他信息" name="productDesc"></textarea>
                         </div>
 
                     </div>
