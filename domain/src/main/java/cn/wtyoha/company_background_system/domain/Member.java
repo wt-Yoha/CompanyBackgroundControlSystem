@@ -10,6 +10,15 @@ public class Member {
     String phoneNum;
     String email;
     Order[] orders;
+    Traveller[] travellers;
+
+    public Traveller[] getTravellers() {
+        return travellers;
+    }
+
+    public void setTravellers(Traveller[] travellers) {
+        this.travellers = travellers;
+    }
 
     public Order[] getOrders() {
         return orders;
@@ -68,6 +77,7 @@ public class Member {
                 ", phoneNum='" + phoneNum + '\'' +
                 ", email='" + email + '\'' +
                 ", orders=" + Arrays.toString(orders) +
+                ", travellers=" + Arrays.toString(travellers) +
                 '}';
     }
 }

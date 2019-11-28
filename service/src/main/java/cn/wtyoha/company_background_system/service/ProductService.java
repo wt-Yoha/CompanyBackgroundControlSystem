@@ -7,6 +7,8 @@ import java.util.List;
 public interface ProductService {
     List<Product> findAll(int currentPage, int pageSize);
 
+    List<Product> findAll();
+
     void saveProduct(Product product);
 
     void deleteProduct(String productNum);

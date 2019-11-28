@@ -1,6 +1,7 @@
 package cn.wtyoha.company_background_system.dao;
 
 import cn.wtyoha.company_background_system.domain.Traveller_Orderform;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,7 @@ public interface Traveller_OrderFormDao {
 
     @Update("delete from traveller_orderform where travellerId = #{travellerId} and orderformId = #{orderformId}")
     public void deleteATraveller_OrderForm(Traveller_Orderform traveller_orderform);
+
+    @Select("select count(*) from traveller_orderform where travellerId = #{travellerId}")
+    public Integer countTravellerBindingOrder(String travellerId);
 }

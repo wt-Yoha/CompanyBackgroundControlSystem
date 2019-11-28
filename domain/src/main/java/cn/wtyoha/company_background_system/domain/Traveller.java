@@ -11,7 +11,7 @@ public class Traveller {
     String PhoneNum;
     int credentialsType; // 证件类型 0 身份证， 1 护照， 2 军官证
     String credentialsTypeStr;
-    String  credentialsNum;
+    String credentialsNum;
     int travellerType; // 旅客类型 0 成人， 1 儿童
     String travellerTypeStr;
 
@@ -96,6 +96,13 @@ public class Traveller {
 
     public void setTravellerType(int travellerType) {
         this.travellerType = travellerType;
+        switch (travellerType) {
+            case 0:
+                travellerTypeStr = "成人";
+                break;
+            case 1:
+                travellerTypeStr = "儿童";
+        }
     }
 
     public String getTravellerTypeStr() {
@@ -104,6 +111,12 @@ public class Traveller {
 
     public void setTravellerTypeStr(String travellerTypeStr) {
         this.travellerTypeStr = travellerTypeStr;
+        if ("成人".equals(travellerTypeStr)) {
+            travellerType = 0;
+        }
+        if ("儿童".equals(travellerTypeStr)) {
+            travellerType = 1;
+        }
     }
 
     @Override

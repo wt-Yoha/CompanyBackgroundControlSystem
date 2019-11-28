@@ -4,6 +4,7 @@ import cn.wtyoha.company_background_system.dao.OrderDao;
 import cn.wtyoha.company_background_system.domain.Member;
 import cn.wtyoha.company_background_system.domain.Order;
 import cn.wtyoha.company_background_system.domain.Product;
+import cn.wtyoha.company_background_system.domain.Traveller;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class TestOrderService {
     OrderDao orderDao;
 
     @Test
-    public void findAll() {
-        for (Order order : orderService.findAll()) {
+    public void serviceFindAll() {
+        for (Order order : orderService.findAll(1, 5)) {
             System.out.println(order);
         }
     }

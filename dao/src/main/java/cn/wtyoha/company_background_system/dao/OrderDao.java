@@ -46,6 +46,13 @@ public interface OrderDao {
             "where id = #{id}")
     void updateOrder(Order order);
 
+    @Update("update orderform set orderNum = #{orderNum}, " +
+            "orderTime = #{orderTimeStr}, " +
+            "orderDesc = #{orderDesc}, " +
+            "productId = #{product.id} " +
+            "where id = #{id}")
+    void updateOrderBase(Order order);
+
     @Update("insert into orderform(id, orderNum, orderTime, peopleCount, orderDesc, payType, orderStatus, productId, memberId)" +
             " values (REPLACE(UUID(), '-', ''), #{orderNum}, " +
             "#{orderTimeStr}, " +

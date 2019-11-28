@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -147,7 +146,7 @@
         }
         function changePageSize(indexs) {
             var size = $(indexs).val();
-            location.href="${pageContext.request.contextPath}/product/productList?currentPage=1&size="+size;
+            location.href="${pageContext.request.contextPath}/order/orderList?currentPage=1&size="+size;
         }
     </script>
 </head>
@@ -170,14 +169,14 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                产品管理
-                <small>全部产品</small>
+                订单管理
+                <small>全部订单</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/index.jsp"><i class="fa fa-dashboard"></i> 首页</a>
                 </li>
-                <li><a href="${pageContext.request.contextPath}/order/orderList">产品管理</a></li>
-                <li class="active">全部产品</li>
+                <li><a href="${pageContext.request.contextPath}/order/orderList">订单管理</a></li>
+                <li class="active">全部订单</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
@@ -207,14 +206,8 @@
                                     <button type="button" class="btn btn-default" title="删除"
                                             onclick='deleteList()'><i class="fa fa-trash-o"></i> 删除
                                     </button>
-                                    <button type="button" class="btn btn-default" title="开启"
-                                            onclick='openProduct()'><i class="fa fa-check"></i> 开启
-                                    </button>
-                                    <button type="button" class="btn btn-default" title="关闭"
-                                            onclick='closeProduct()'><i class="fa fa-ban"></i>关闭
-                                    </button>
                                     <button type="button" class="btn btn-default" title="刷新"
-                                            onclick="location.href='${pageContext.request.contextPath}/product/productList?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}'">
+                                            onclick="location.href='${pageContext.request.contextPath}/order/orderList?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}'">
                                         <i class="fa fa-refresh"></i> 刷新
                                     </button>
                                 </div>
@@ -237,51 +230,47 @@
                                         <input id="selall" type="checkbox" class="icheckbox_square-blue">
                                     </th>
                                     <th class="sorting_asc">ID</th>
-                                    <th class="sorting" name="productNum">产品编号</th>
-                                    <th class="sorting" name="productName">产品名称</th>
-                                    <th class="sorting" name="productPrice">金额</th>
-                                    <th class="sorting" name="cityName">出发城市</th>
-                                    <th class="sorting" name="departureTimeStr">出发时间</th>
-                                    <th class="sorting" name="productDesc">产品描述</th>
-                                    <th class="sorting" name="productStatusStr">产品状态</th>
+                                    <th class="sorting" name="orderNum">订单编号</th>
+                                    <th class="sorting" name="order.product.Name">产品名称</th>
+                                    <th class="sorting" name="orderPrice">金额</th>
+                                    <th class="sorting" name="orderTimeStr">下单时间</th>
+                                    <th class="sorting" name="orderStatusStr">订单状态</th>
 
                                     <th class="text-center">操作</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${requestScope.productList}" var="order" varStatus="i">
+                                <c:forEach items="${requestScope.orderList}" var="order" varStatus="i">
                                     <tr style="font-size: 12px">
 <%--                                        <td><input name="productNum${i.count}" type="checkbox" value="${product.productNum}"></td>--%>
-                                        <td><input name="productNum" type="checkbox" value="${order.productNum}"></td>
+                                        <td><input name="orderNum" type="checkbox" value="${order.orderNum}"></td>
                                         <td>
                                                 ${i.count+(pageInfo.pageNum-1)*pageInfo.pageSize}
                                         </td>
-                                        <td>${order.productNum}</td>
-                                        <td>${order.productName}</td>
-                                        <td>￥${order.productPrice}</td>
-                                        <td>${order.cityName}</td>
-                                        <td>${order.departureTimeStr}</td>
-                                        <td>${order.productDesc}</td>
-                                        <td>${order.productStatusStr}</td>
+                                        <td>${order.orderNum}</td>
+                                        <td>${order.product.productName}</td>
+                                        <td>￥${order.product.productPrice}</td>
+                                        <td>${order.orderTimeStr}</td>
+                                        <td>${order.orderStatusStr}</td>
 
                                         <td class="text-center">
                                             <button type="button" class="btn bg-olive btn-xs"
-                                                    onclick='location.href="productEdit.jsp"'>订单
+                                                    onclick='location.href="${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}"'>详情
                                             </button>
                                             <button type="button" class="btn bg-olive btn-xs"
-                                                    onclick='location.href="productEdit.jsp"'>详情
+                                                    onclick='location.href="${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}&edit=true"'>编辑
                                             </button>
-                                            <button type="button" class="btn bg-olive btn-xs"
-                                                    onclick='location.href="${pageContext.request.contextPath}/product/edit"+
-                                                            "?productNum=${order.productNum}"+
-                                                            "&productName=${order.productName}"+
-                                                            "&productPrice=${order.productPrice}"+
-                                                            "&cityName=${order.cityName}"+
-                                                            "&departureTimeStr=${order.departureTimeStr}"+
-                                                            "&productDesc=${order.productDesc}"+
-                                                            "&productStatus=${order.productStatus}";'>编辑
-                                            </button>
+<%--                                            <button type="button" class="btn bg-olive btn-xs"--%>
+<%--                                                    onclick='location.href="${pageContext.request.contextPath}/product/edit"+--%>
+<%--                                                            "?productNum=${order.productNum}"+--%>
+<%--                                                            "&productName=${order.productName}"+--%>
+<%--                                                            "&productPrice=${order.productPrice}"+--%>
+<%--                                                            "&cityName=${order.cityName}"+--%>
+<%--                                                            "&departureTimeStr=${order.departureTimeStr}"+--%>
+<%--                                                            "&productDesc=${order.productDesc}"+--%>
+<%--                                                            "&productStatus=${order.productStatus}";'>编辑--%>
+<%--                                            </button>--%>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -436,7 +425,7 @@
     $(document).ready(function () {
 
         // 激活导航位置
-        setSidebarActive("product-manage");
+        setSidebarActive("order-manage");
 
         // 列表按钮
         $("#dataList td input[type='checkbox']").iCheck({
