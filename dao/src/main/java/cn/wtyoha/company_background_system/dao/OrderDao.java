@@ -29,7 +29,8 @@ public interface OrderDao {
             @Result(column = "id", property = "id"),
             @Result(column = "productId", property = "product", one = @One(select = "cn.wtyoha.company_background_system.dao.ProductDao.findById")),
             @Result(column = "memberId", property = "member", one = @One(select = "cn.wtyoha.company_background_system.dao.MemberDao.findById")),
-            @Result(column = "id", property = "travellers", many = @Many(select = "cn.wtyoha.company_background_system.dao.TravellerDao.findByOrderId"))
+            @Result(column = "id", property = "travellers", many = @Many(select = "cn.wtyoha.company_background_system.dao.TravellerDao.findByOrderId")),
+            @Result(column = "id", property = "peopleCount", one = @One(select = "cn.wtyoha.company_background_system.dao.Traveller_OrderFormDao.countOrderBindingTraveller"))
     })
     Order findById(String id);
 

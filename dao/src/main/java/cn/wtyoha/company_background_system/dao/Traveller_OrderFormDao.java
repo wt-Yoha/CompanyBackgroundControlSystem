@@ -16,4 +16,7 @@ public interface Traveller_OrderFormDao {
 
     @Select("select count(*) from traveller_orderform where travellerId = #{travellerId}")
     public Integer countTravellerBindingOrder(String travellerId);
+
+    @Select("select count(*) from traveller_orderform where orderformId = #{orderId}")
+    public Integer countOrderBindingTraveller(String orderId);
 }

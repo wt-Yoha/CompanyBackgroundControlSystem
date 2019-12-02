@@ -222,7 +222,7 @@
                         </select>
                         &nbsp;
                         <button style="float: right" type="button" class="btn bg-olive btn-xs"
-                                onclick='$("#updateOrder").submit()'>添加
+                                onclick='$("").submit()'>添加
                         </button>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                     <c:forEach items="${order.travellers}" var="traveller" varStatus="s">
                         <form id="updateTraveller${s.count}"
                               action="${pageContext.request.contextPath}/traveller/editOrderUpdateTraveller"
-                              method="post">
+                              method="post" class="updateTravellers">
                             <input type="text" name="orderId" value="${order.id}" hidden="hidden"/>
                             <input type="text" name="id" value="${traveller.id}" hidden="hidden"/>
                             <input type="text" size="10" name="name" value="${traveller.name}" hidden="hidden">
@@ -298,7 +298,8 @@
                                         </button>
                                         &nbsp;
                                         <button type="button" class="btn bg-olive btn-xs"
-                                                onclick='location.href="${pageContext.request.contextPath}/traveller/editOrderDeleteTraveller?travellerId=${traveller.id}&orderId=${order.id}"'>移除
+                                                onclick='location.href="${pageContext.request.contextPath}/traveller/editOrderDeleteTraveller?travellerId=${traveller.id}&orderId=${order.id}"'>
+                                            移除
                                         </button>
                                     </div>
                                 </td>
@@ -353,32 +354,39 @@
             <!--游客信息/-->
 
             <!--联系人信息-->
-            <div class="panel panel-default">
-                <div class="panel-heading">联系人信息</div>
-                <div class="row data-type">
-
-                    <div class="col-md-2 title">会员</div>
-                    <div class="col-md-4 data text">
-                        ${order.member.nickName}
+            <form id="updateMember" action="${pageContext.request.contextPath}/member/editOrderUpdateMember" method="post">
+                <div class="panel panel-default">
+                    <div class="panel-heading">联系人信息
+                        <button style="float: right" type="button" class="btn bg-olive btn-xs"
+                                onclick='$("#updateMember").submit()'>提交修改
+                        </button>
                     </div>
+                    <div class="row data-type">
+                        <input type="text" hidden="hidden" value="${order.id}" name="orderId">
+                        <input type="text" hidden="hidden" value="${order.member.id}" name="id">
+                        <div class="col-md-2 title">会员</div>
+                        <div class="col-md-4 data text">
+                            <input type="text" class="form-control" value="${order.member.nickName}" name="nickName">
+                        </div>
 
-                    <div class="col-md-2 title">联系人</div>
-                    <div class="col-md-4 data text">
-                        ${order.member.name}
+                        <div class="col-md-2 title">联系人</div>
+                        <div class="col-md-4 data text">
+                            <input type="text" class="form-control" value="${order.member.name}" name="name">
+                        </div>
+
+                        <div class="col-md-2 title">手机号</div>
+                        <div class="col-md-4 data text">
+                            <input type="text" class="form-control" value="${order.member.phoneNum}" name="phoneNum">
+                        </div>
+
+                        <div class="col-md-2 title">邮箱</div>
+                        <div class="col-md-4 data text">
+                            <input type="text" class="form-control" value="${order.member.email}" name="email">
+                        </div>
+
                     </div>
-
-                    <div class="col-md-2 title">手机号</div>
-                    <div class="col-md-4 data text">
-                        ${order.member.phoneNum}
-                    </div>
-
-                    <div class="col-md-2 title">邮箱</div>
-                    <div class="col-md-4 data text">
-                        ${order.member.email}
-                    </div>
-
                 </div>
-            </div>
+            </form>
             <!--联系人信息/-->
 
             <!--费用信息-->
@@ -400,9 +408,41 @@
             <!--费用信息/-->
 
             <!--工具栏-->
+            <script>
+<%--                保存按钮动作绑定--%>
+                function savePage() {
+                    var updateOrderForm = $("#updateOrder");
+                    $.post(updateOrderForm.attr("action"), updateOrderForm.serialize(), function () {
+                        location.href = "${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}&edit=true"
+                    })
+
+                    var updateTravellerForms = $(".updateTravellers");
+                    for (var i = 0; i < updateTravellerForms.length; i++) {
+                        var form = $(updateTravellerForms.get(i))
+                        $.post(form.attr("action"), form.serialize(), function () {
+                            location.href = "${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}&edit=true"
+                        })
+                    }
+
+                    var updateMemberForm = $("#updateMember");
+                    $.post(updateMemberForm.attr("action"), updateMemberForm.serialize(), function () {
+                        location.href = "${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}&edit=true"
+                    })
+
+                    $("#saveTraveller").submit();
+                }
+
+            </script>
             <div class="box-tools text-center">
-                <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>
+                <button type="button" class="btn bg-green"
+                        onclick="savePage()">
+                    保存
+                </button>
+                <button type="button" class="btn bg-default" onclick="location.href='${pageContext.request.contextPath}/order/orderList'">返回</button>
             </div>
+<%--            <div class="box-tools text-center">--%>
+<%--                <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>--%>
+<%--            </div>--%>
             <!--工具栏/-->
 
         </section>

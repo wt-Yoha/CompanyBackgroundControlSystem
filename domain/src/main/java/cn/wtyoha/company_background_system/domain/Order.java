@@ -70,11 +70,12 @@ public class Order {
     }
 
     public void setOrderTimeStr(String orderTimeStr) throws ParseException {
+        orderTimeStr = orderTimeStr.replace("年", "-");
+        orderTimeStr = orderTimeStr.replace("月", "-");
+        orderTimeStr = orderTimeStr.replace("日", "-");
         this.orderTimeStr = orderTimeStr;
-        orderTimeStr.replace("年", "-");
-        orderTimeStr.replace("月", "-");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        orderTime = sdf.parse(orderTimeStr);
+        this.orderTime = sdf.parse(orderTimeStr);
     }
 
     public int getPeopleCount() {

@@ -22,6 +22,9 @@ public class TravellerController {
 
     @RequestMapping("/editOrderSaveTraveller")
     public String saveTravellerToOrder(Traveller traveller, String orderId) {
+        if (traveller.getName() == null || "".equals(traveller.getName())) {
+            return "redirect:/order/showOrderDetailsById?id="+orderId+"&edit=true";
+        }
         travellerService.saveTravellerToOrder(traveller, orderId);
         return "redirect:/order/showOrderDetailsById?id="+orderId+"&edit=true";
     }
