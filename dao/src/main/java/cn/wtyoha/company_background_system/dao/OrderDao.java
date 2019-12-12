@@ -55,7 +55,8 @@ public interface OrderDao {
     void updateOrderBase(Order order);
 
     @Update("insert into orderform(id, orderNum, orderTime, peopleCount, orderDesc, payType, orderStatus, productId, memberId)" +
-            " values (REPLACE(UUID(), '-', ''), #{orderNum}, " +
+            " values (#{id}, " +
+            "#{orderNum}, "+
             "#{orderTimeStr}, " +
             "#{peopleCount}, " +
             "#{orderDesc}, " +

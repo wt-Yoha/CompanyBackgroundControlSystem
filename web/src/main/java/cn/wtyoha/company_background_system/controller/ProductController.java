@@ -29,7 +29,7 @@ public class ProductController {
     ProductService productService;
 
     @RequestMapping("/productList")
-    public String showProductList(@RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(name = "size", defaultValue = "5") Integer pageSize, HttpServletRequest request) throws IOException {
+    public String showProductList(@RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(name = "size", defaultValue = "10") Integer pageSize, HttpServletRequest request) throws IOException {
         List<Product> products = productService.findAll(currentPage, pageSize);
         PageInfo pageInfo = new PageInfo(products);
         int totalPage = pageInfo.getPages();

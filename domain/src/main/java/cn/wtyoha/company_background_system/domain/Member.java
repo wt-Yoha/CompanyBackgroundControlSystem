@@ -1,6 +1,7 @@
 package cn.wtyoha.company_background_system.domain;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Member {
     // 会员表
@@ -66,6 +67,23 @@ public class Member {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return id.equals(member.id) &&
+                name.equals(member.name) &&
+                nickName.equals(member.nickName) &&
+                Objects.equals(phoneNum, member.phoneNum) &&
+                Objects.equals(email, member.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, nickName, phoneNum, email);
     }
 
     @Override

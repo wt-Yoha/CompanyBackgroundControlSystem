@@ -61,4 +61,9 @@ public class ProductServiceImpl implements ProductService {
             }
         }
     }
+
+    @Override
+    public Product findById(String id) {
+        return productDao.findById(id);
+    }
 }

@@ -1,6 +1,7 @@
 package cn.wtyoha.company_background_system.controller;
 
 import cn.wtyoha.company_background_system.dao.OrderDao;
+import cn.wtyoha.company_background_system.domain.Member;
 import cn.wtyoha.company_background_system.domain.Order;
 import cn.wtyoha.company_background_system.domain.Product;
 import cn.wtyoha.company_background_system.domain.Traveller;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/order")
@@ -37,7 +38,7 @@ public class OrderController {
 
     @RequestMapping("/orderList")
     public String showOrderList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-                                @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                                @RequestParam(value = "size", defaultValue = "10") int pageSize,
                                 HttpServletRequest request) {
 
         List<Order> orders = orderService.findAll(currentPage, pageSize);
@@ -59,7 +60,10 @@ public class OrderController {
             List<Product> productList = productService.findAll();
             request.setAttribute("productList", productList);
             // 该会员其他订单的旅客表
-            request.setAttribute("linkedTravellers", order.getMember().getTravellers());
+            Set membersTravellers = new HashSet(Arrays.asList(order.getMember().getTravellers()));
+            Set ordersTravellers = new HashSet(order.getTravellers());
+            membersTravellers.removeAll(ordersTravellers);
+            request.setAttribute("linkedTravellers", membersTravellers);
             return "orderEdit";
         }
         return "orderDetail";
@@ -69,8 +73,58 @@ public class OrderController {
     public String updateOrder(Order order, HttpServletRequest request) {
         // 更新内容：订单编号，下单时间，订单描述，绑定的 product
         orderService.updateOrderBase(order);
-        System.out.println("forward:showOrderDetailsById?id="+order.getId()+"&edit=true");
-        return "redirect:showOrderDetailsById?id="+order.getId()+"&edit=true";
+        System.out.println("forward:showOrderDetailsById?id=" + order.getId() + "&edit=true");
+        return "redirect:showOrderDetailsById?id=" + order.getId() + "&edit=true";
+    }
+
+
+    @RequestMapping("/orderNew")
+    public String newOrder(Order order, HttpServletRequest request) {
+        List<Product> productList = productService.findAll();
+        request.setAttribute("productList", productList);
+        List<Member> members = memberService.findAll();
+        request.setAttribute("members", members);
+
+        Product bindProduct = null;
+        Member bindMember = null;
+
+        if (order.getProduct() != null) {
+            bindProduct = productService.findById(order.getProduct().getId());
+            order.setProduct(bindProduct);
+        }
+        if (order.getMember() != null) {
+            bindMember = memberService.findById(order.getMember().getId());
+            order.setMember(bindMember);
+        }
+
+        request.setAttribute("order", order);
+        return "orderNew";
+    }
+
+    @RequestMapping("/newOrderSubmit")
+    public String newOrderSubmit(Order order) {
+        if (order.getMember() == null || (order.getProduct() == null && order.getProduct().getId() == null && !"".equals(order.getProduct().getId()))) {
+            return "orderNew";
+        }
+        Member bindMember = order.getMember();
+        if (bindMember.getId() == null || "".equals(bindMember.getId())) {
+            // 此时新建会员
+            String uuid = UUID.randomUUID().toString().replace("-", "");
+            bindMember.setId(uuid);
+            memberService.saveMember(bindMember);
+        } else {
+            // 此时是已有会员
+            Member old = memberService.findById(bindMember.getId());
+            if (!bindMember.equals(old)) {
+                // 更新已有会员
+                memberService.updateMember(bindMember);
+            }
+        }
+
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        order.setId(uuid);
+        orderService.saveOrder(order);
+        return "redirect:showOrderDetailsById?id=" + order.getId() + "&edit=true";
     }
 
 

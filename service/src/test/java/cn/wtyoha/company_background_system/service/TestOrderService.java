@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
@@ -30,6 +31,28 @@ public class TestOrderService {
         for (Order order : orderService.findAll(1, 5)) {
             System.out.println(order);
         }
+    }
+
+    @Test
+    public void saveOrder() {
+        Order order = new Order();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        order.setId(uuid);
+        order.setOrderTime(new Date());
+        order.setOrderNum("6666666666");
+        order.setOrderDesc("");
+        order.setOrderStatus(0);
+
+        Member member = new Member();
+        member.setId("e799f46b00c841a59358b271d4ed889f");
+
+        Product product = new Product();
+        product.setId("b5ba5ab3094211ea8756000ec657fad1");
+
+        order.setMember(member);
+        order.setProduct(product);
+
+        orderService.saveOrder(order);
     }
 
     @Test

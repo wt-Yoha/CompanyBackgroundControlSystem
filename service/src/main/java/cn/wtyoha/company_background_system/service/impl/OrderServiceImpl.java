@@ -60,6 +60,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void saveOrder(Order order) {
-
+        orderDao.saveOrder(order);
     }
 }

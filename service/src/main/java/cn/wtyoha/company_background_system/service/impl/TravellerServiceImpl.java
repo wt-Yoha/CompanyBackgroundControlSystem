@@ -71,4 +71,9 @@ public class TravellerServiceImpl implements TravellerService {
             travellerDao.deleteTraveller(travellerId);
         }
     }
+
+    @Override
+    public void addTravellerToOrder(String travellerId, String orderId) {
+        traveller_orderFormDao.saveATraveller_OrderForm(new Traveller_Orderform(travellerId, orderId));
+    }
 }

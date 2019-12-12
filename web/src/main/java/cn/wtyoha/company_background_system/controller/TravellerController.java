@@ -34,4 +34,10 @@ public class TravellerController {
         travellerService.deleteTravellerFromOrder(travellerId, orderId);
         return "redirect:/order/showOrderDetailsById?id="+orderId+"&edit=true";
     }
+
+    @RequestMapping("/addTravellerToOrder")
+    public String addTrevellerToOrder(String travellerId, String orderId) {
+        travellerService.addTravellerToOrder(travellerId, orderId);
+        return "redirect:/order/showOrderDetailsById?id="+orderId+"&edit=true";
+    }
 }

@@ -24,6 +24,6 @@ public interface MemberDao {
     @Update("delete from member where id = #{id}")
     void deleteMember(String id);
 
-    @Update("insert into member values(REPLACE(UUID(), '-', ''), #{name}, #{nickName}, #{phoneNum}, #{email})")
+    @Update("insert into member values(#{id}, #{name}, #{nickName}, #{phoneNum}, #{email})")
     void saveMember(Member member);
 }

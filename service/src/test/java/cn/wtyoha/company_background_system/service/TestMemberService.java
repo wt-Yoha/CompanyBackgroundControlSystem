@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.UUID;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 public class TestMemberService {
@@ -44,5 +46,17 @@ public class TestMemberService {
     @Test
     public void daoDelete() {
         memberDao.deleteMember("f998bbba0c3211eaa50f087190f3bc94");
+    }
+
+    @Test
+    public void saveMember() {
+        Member member = new Member();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        member.setId(uuid);
+        member.setNickName("lalalla");
+        member.setName("孙笑川");
+        member.setEmail("894753845@qq.com");
+        member.setPhoneNum("874298374283");
+        memberServiece.saveMember(member);
     }
 }

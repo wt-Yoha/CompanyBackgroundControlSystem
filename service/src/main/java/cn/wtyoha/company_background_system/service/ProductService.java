@@ -2,6 +2,7 @@ package cn.wtyoha.company_background_system.service;
 
 import cn.wtyoha.company_background_system.domain.Product;
 
+import javax.swing.plaf.ProgressBarUI;
 import java.util.List;
 
 public interface ProductService {
@@ -18,4 +19,6 @@ public interface ProductService {
     void updateProduct(Product product);
 
     void availableProductList(String[] productNums, boolean available);
+
+    Product findById(String id);
 }

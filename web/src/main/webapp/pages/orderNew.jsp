@@ -1,3 +1,4 @@
+<%@ page import="cn.wtyoha.company_background_system.domain.Order" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -105,6 +106,29 @@
     <link rel="stylesheet" href="../plugins/bootstrap-slider/slider.css">
     <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
     <script type="text/javascript" src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script>
+        function refreshPage() {
+            $("#orderForm").submit();
+        }
+        function submitNewOrder() {
+            if ($("#orderNum").val() == "") {
+                alert("订单编号为空!");
+                return;
+            }else if ($("#bindProductId").val() == "") {
+                alert("未选择产品!");
+                return;
+            } else if ($("#memberNickName").val() == "") {
+                alert("会员昵称为空!");
+                return;
+            }else if ($("#memberName").val() == "") {
+                alert("联系人姓名为空!");
+                return;
+            } else {
+                $("#orderForm").prop("action", "${pageContext.request.contextPath}/order/newOrderSubmit");
+                $("#orderForm").submit();
+            }
+        }
+    </script>
 </head>
 
 <body class="hold-transition skin-yellow sidebar-mini">
@@ -140,19 +164,13 @@
         <section class="content">
 
             <!--订单信息-->
-            <form id="updateOrder" action="${pageContext.request.contextPath}/order/updateOrder" method="post">
+            <form id="orderForm" action="${pageContext.request.contextPath}/order/orderNew" method="post">
                 <div class="panel panel-default">
-                    <div class="panel-heading">订单-产品信息
-                        <button style="float: right" type="button" class="btn bg-olive btn-xs"
-                                onclick='$("#updateOrder").submit()'>提交修改
-                        </button>
-                    </div>
+                    <div class="panel-heading">订单-产品信息</div>
                     <div class="row data-type">
-
                         <div class="col-md-2 title">订单编号</div>
                         <div class="col-md-4 data">
-                            <input type="text" name="id" value="${order.id}" hidden="hidden">
-                            <input type="text" name="orderNum" class="form-control" placeholder="订单编号"
+                            <input type="text" id="orderNum" name="orderNum" class="form-control" placeholder="订单编号"
                                    value="${order.orderNum}">
                         </div>
 
@@ -168,9 +186,15 @@
                         </div>
                         <div class="col-md-2 title">路线名称</div>
                         <div class="col-md-4 data">
-                            <%--                        <input type="text" class="form-control" placeholder="路线名称" value="${order.product.productName}">--%>
-                            <select class="form-control select2" id="bindProduct" name="product.id">
-                                <option class="selected" value="${order.product.id}">${order.product.productNum}&nbsp;|&nbsp;${order.product.productName}</option>
+                            <select class="form-control select2" id="bindProductId" name="product.id" onchange="refreshPage()">
+                                <c:choose>
+                                    <c:when test="${order.product != null}">
+                                        <option class="selected" value="${order.product.id}">${order.product.productNum}&nbsp;|&nbsp;${order.product.productName}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option></option>
+                                    </c:otherwise>
+                                </c:choose>
                                 <c:forEach items="${productList}" var="product">
                                     <option value="${product.id}">${product.productNum}&nbsp;|&nbsp;${product.productName}</option>
                                 </c:forEach>
@@ -208,242 +232,63 @@
 
                     </div>
                 </div>
-            </form>
-            <!--产品信息/-->
+                <!--产品信息/-->
 
-            <!--游客信息-->
-            <div class="panel panel-default">
-                <form id="addTravellerToOrder" action="${pageContext.request.contextPath}/traveller/addTravellerToOrder"
-                      method="post" class="panel-heading">
-                    <input name="orderId" value="${order.id}" type="text" hidden="hidden">
-                        游客信息
-                        <div style="float: right;">
-                            <select class="" id="" name="travellerId">
-                                <c:forEach items="${linkedTravellers}" var="traveller">
-                                    <option value="${traveller.id}">${traveller.name}&nbsp;|&nbsp;${traveller.credentialsNum}</option>
-                                </c:forEach>
-                            </select>
-                            &nbsp;
-                            <button style="float: right" type="button" class="btn bg-olive btn-xs"
-                                    onclick='$("#addTravellerToOrder").submit()'>添加
-                            </button>
-                    </div>
-                </form>
-                <!--数据列表-->
-                <table id="travellerList" class="table table-bordered table-striped table-hover dataTable">
-                    <thead>
-                    <tr>
-                        <th class="">人群</th>
-                        <th class="">姓名</th>
-                        <th class="">性别</th>
-                        <th class="">手机号码</th>
-                        <th class="">证件类型</th>
-                        <th class="">证件号码</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <%--                    游客展示 修改--%>
-                    <c:forEach items="${order.travellers}" var="traveller" varStatus="s">
-                        <form id="updateTraveller${s.count}"
-                              action="${pageContext.request.contextPath}/traveller/editOrderUpdateTraveller"
-                              method="post" class="updateTravellers">
-                            <input type="text" name="orderId" value="${order.id}" hidden="hidden"/>
-                            <input type="text" name="id" value="${traveller.id}" hidden="hidden"/>
-                            <input type="text" size="10" name="name" value="${traveller.name}" hidden="hidden">
-                            <tr>
-                                <td>
-                                    <select name="travellerType" class="form-control">
-                                        <option value="${traveller.travellerType}">${traveller.travellerTypeStr}</option>
-                                        <c:if test="${traveller.travellerType!=0}">
-                                            <option value="0">成人</option>
-                                        </c:if>
-                                        <c:if test="${traveller.travellerType!=1}">
-                                            <option value="1">儿童</option>
-                                        </c:if>
-                                    </select>
-                                </td>
-                                <td><span class="form-control">${traveller.name}</span></td>
-                                <td>
-                                    <select class="form-control" name="sex">
-                                        <c:if test="${traveller.sex == '男'}">
-                                            <option>男</option>
-                                            <option>女</option>
-                                        </c:if>
-                                        <c:if test="${traveller.sex == '女'}">
-                                            <option>女</option>
-                                            <option>男</option>
-                                        </c:if>
-                                    </select>
-                                </td>
-                                <td><input class="form-control" type="text" size="20" name="phoneNum"
-                                           value="${traveller.phoneNum}"></td>
-                                <td>
-                                    <select class="form-control" name="credentialsType">
-                                        <option value="${traveller.credentialsType}">${traveller.credentialsTypeStr}</option>
-                                        <c:if test="${traveller.credentialsType!=0}">
-                                            <option value="0">身份证</option>
-                                        </c:if>
-                                        <c:if test="${traveller.credentialsType!=1}">
-                                            <option value="1">护照</option>
-                                        </c:if>
-                                        <c:if test="${traveller.credentialsType!=2}">
-                                            <option value="2">军官证</option>
-                                        </c:if>
-                                    </select>
-                                </td>
-                                <td><input type="text" size="28" value="${traveller.credentialsNum}"
-                                           name="credentialsNum" class="form-control"></td>
-                                <td>
-                                    <div style="float: right">
-                                        <button type="button" class="btn bg-olive btn-xs"
-                                                onclick='$("#updateTraveller${s.count}").submit()'>修改
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn bg-olive btn-xs"
-                                                onclick='location.href="${pageContext.request.contextPath}/traveller/editOrderDeleteTraveller?travellerId=${traveller.id}&orderId=${order.id}"'>
-                                            移除
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </form>
-                    </c:forEach>
-                    <%--                    游客展示 修改--%>
-
-                    <%--                    新增用户--%>
-                    <form id="saveTraveller"
-                          action="${pageContext.request.contextPath}/traveller/editOrderSaveTraveller"
-                          method="post">
-                        <input type="text" name="orderId" value="${order.id}" hidden="hidden"/>
-                        <tr>
-                            <td>
-                                <select class="form-control" name="travellerType">
-                                    <option value="0">成人</option>
-                                    <option value="1">儿童</option>
-                                </select>
-                            </td>
-                            <td><input type="text" name="name" class="form-control" placeholder="姓名"/></td>
-                            <td>
-                                <select class="form-control" name="sex">
-                                    <option value="男">男</option>
-                                    <option value="女">女</option>
-                                </select>
-                            </td>
-                            <td><input class="form-control" type="text" size="20" name="phoneNum" placeholder="电话">
-                            </td>
-                            <td>
-                                <select class="form-control" name="credentialsType">
-                                    <option value="0">身份证</option>
-                                    <option value="1">护照</option>
-                                    <option value="2">军官证</option>
-                                </select>
-                            </td>
-                            <td><input type="text" size="28" placeholder="证件号码" name="credentialsNum"
-                                       class="form-control"></td>
-                            <td>
-                                <div style="float: right; margin-right: 30px; margin-top: 10px">
-                                    <button type="button" class="btn bg-olive btn-xs"
-                                            onclick='$("#saveTraveller").submit()'>新增
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </form>
-                    <%--                    新增用户--%>
-
-                    </tbody>
-                </table>
-                <!--数据列表/-->
-            </div>
-            <!--游客信息/-->
-
-            <!--联系人信息-->
-            <form id="updateMember" action="${pageContext.request.contextPath}/member/editOrderUpdateMember"
-                  method="post">
+                <!--联系人信息-->
                 <div class="panel panel-default">
                     <div class="panel-heading">联系人信息
-                        <button style="float: right" type="button" class="btn bg-olive btn-xs"
-                                onclick='$("#updateMember").submit()'>提交修改
-                        </button>
+                        <div style="float: right;">
+                            选择已有会员
+                            <select class="" id="bindMember" name="member.id" onchange="refreshPage()">
+                                <c:if test="${order.member == null}">
+                                    <option value=""></option>
+                                </c:if>
+                                <c:forEach items="${members}" var="member">
+                                    <c:if test="${order.member !=null && order.member.id == member.id}">
+                                        <option value="${member.id}">${member.name}&nbsp;|&nbsp;${member.phoneNum}</option>
+                                    </c:if>
+                                </c:forEach>
+                                <c:forEach items="${members}" var="member">
+                                    <c:if test="${order.member==null || !(order.member.id == member.id)}">
+                                        <option value="${member.id}">${member.name}&nbsp;|&nbsp;${member.phoneNum}</option>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${order.member != null}">
+                                    <option value=""></option>
+                                </c:if>
+                            </select>
+                        </div>
                     </div>
                     <div class="row data-type">
-                        <input type="text" hidden="hidden" value="${order.id}" name="orderId">
-                        <input type="text" hidden="hidden" value="${order.member.id}" name="id">
                         <div class="col-md-2 title">会员</div>
                         <div class="col-md-4 data text">
-                            <input type="text" class="form-control" value="${order.member.nickName}" name="nickName">
+                            <input type="text" class="form-control" value="${order.member.nickName}" id="memberNickName" name="member.nickName">
+
                         </div>
 
                         <div class="col-md-2 title">联系人</div>
                         <div class="col-md-4 data text">
-                            <input type="text" class="form-control" value="${order.member.name}" name="name">
+                            <input type="text" class="form-control" value="${order.member.name}" id="memberName" name="member.name">
                         </div>
 
                         <div class="col-md-2 title">手机号</div>
                         <div class="col-md-4 data text">
-                            <input type="text" class="form-control" value="${order.member.phoneNum}" name="phoneNum">
+                            <input type="text" class="form-control" value="${order.member.phoneNum}" name="member.phoneNum">
                         </div>
 
                         <div class="col-md-2 title">邮箱</div>
                         <div class="col-md-4 data text">
-                            <input type="text" class="form-control" value="${order.member.email}" name="email">
+                            <input type="text" class="form-control" value="${order.member.email}" name="member.email">
                         </div>
-
                     </div>
                 </div>
+                <!--联系人信息/-->
             </form>
-            <!--联系人信息/-->
-
-            <!--费用信息-->
-            <div class="panel panel-default">
-                <div class="panel-heading">费用信息</div>
-                <div class="row data-type">
-
-                    <div class="col-md-2 title">支付方式</div>
-                    <div class="col-md-4 data text">
-                        ${order.payTypeStr} &nbsp; ${order.orderStatusStr}
-                    </div>
-
-                    <div class="col-md-2 title">金额</div>
-                    <div class="col-md-4 data text">
-                        ￥${order.product.productPrice*order.peopleCount}
-                    </div>
-                </div>
-            </div>
-            <!--费用信息/-->
-
             <!--工具栏-->
-            <script>
-                <%--                保存按钮动作绑定--%>
-
-                function savePage() {
-                    var updateOrderForm = $("#updateOrder");
-                    $.post(updateOrderForm.attr("action"), updateOrderForm.serialize(), function () {
-                        location.href = "${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}&edit=true"
-                    })
-
-                    var updateTravellerForms = $(".updateTravellers");
-                    for (var i = 0; i < updateTravellerForms.length; i++) {
-                        var form = $(updateTravellerForms.get(i))
-                        $.post(form.attr("action"), form.serialize(), function () {
-                            location.href = "${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}&edit=true"
-                        })
-                    }
-
-                    var updateMemberForm = $("#updateMember");
-                    $.post(updateMemberForm.attr("action"), updateMemberForm.serialize(), function () {
-                        location.href = "${pageContext.request.contextPath}/order/showOrderDetailsById?id=${order.id}&edit=true"
-                    })
-
-                    $("#saveTraveller").submit();
-                }
-
-            </script>
             <div class="box-tools text-center">
                 <button type="button" class="btn bg-green"
-                        onclick="savePage()">
-                    保存
+                        onclick="submitNewOrder()">
+                    提交
                 </button>
                 <button type="button" class="btn bg-default"
                         onclick="location.href='${pageContext.request.contextPath}/order/orderList'">返回

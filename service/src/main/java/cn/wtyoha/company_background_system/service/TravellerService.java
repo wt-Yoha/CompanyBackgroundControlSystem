@@ -22,4 +22,6 @@ public interface TravellerService {
     void saveTravellerToOrder(Traveller traveller, String orderId);
 
     void deleteTravellerFromOrder(String travellerId, String orderId);
+
+    void addTravellerToOrder(String travellerId, String orderId);
 }

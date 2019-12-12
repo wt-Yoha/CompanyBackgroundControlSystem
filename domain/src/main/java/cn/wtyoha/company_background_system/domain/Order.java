@@ -70,6 +70,8 @@ public class Order {
     }
 
     public void setOrderTimeStr(String orderTimeStr) throws ParseException {
+        if (orderTimeStr == null || "".equals(orderTimeStr))
+            return;
         orderTimeStr = orderTimeStr.replace("年", "-");
         orderTimeStr = orderTimeStr.replace("月", "-");
         orderTimeStr = orderTimeStr.replace("日", "-");
