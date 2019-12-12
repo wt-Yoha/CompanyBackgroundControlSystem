@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         User user = userDao.findByUserName(s);
         List<SimpleGrantedAuthority> authorities = getAuthorities(user);
         System.out.println(user);
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), "{noop}"+user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
                 user.getStatus() != 0, true, true, true,
                 authorities);
     }

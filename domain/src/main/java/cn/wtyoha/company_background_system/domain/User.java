@@ -9,7 +9,21 @@ public class User {
     String password;
     String phoneNum;
     int status;
+    String statusStr;
     List<Role> roleList;
+
+    public String getStatusStr() {
+        return statusStr;
+    }
+
+    public void setStatusStr(String statusStr) {
+        this.statusStr = statusStr;
+        if ("开启".equals(statusStr)) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+    }
 
     public List<Role> getRoleList() {
         return roleList;
@@ -65,6 +79,11 @@ public class User {
 
     public void setStatus(int status) {
         this.status = status;
+        if (status == 1) {
+            statusStr = "未开启";
+        } else {
+            statusStr = "开启";
+        }
     }
 
     @Override

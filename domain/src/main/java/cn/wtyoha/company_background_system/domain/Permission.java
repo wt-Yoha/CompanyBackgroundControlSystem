@@ -1,9 +1,20 @@
 package cn.wtyoha.company_background_system.domain;
 
+import java.util.List;
+
 public class Permission {
     String id;
     String permissionName;
     String url;
+    List<Role> roleList;
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
 
     public String getId() {
         return id;
@@ -35,6 +46,7 @@ public class Permission {
                 "id='" + id + '\'' +
                 ", permissionName='" + permissionName + '\'' +
                 ", url='" + url + '\'' +
+                ", roleList=" + roleList +
                 '}';
     }
 }
