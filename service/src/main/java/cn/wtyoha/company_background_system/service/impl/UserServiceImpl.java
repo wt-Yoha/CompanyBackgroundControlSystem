@@ -4,6 +4,7 @@ import cn.wtyoha.company_background_system.dao.UserDao;
 import cn.wtyoha.company_background_system.domain.Role;
 import cn.wtyoha.company_background_system.domain.User;
 import cn.wtyoha.company_background_system.service.UserService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,5 +37,16 @@ public class UserServiceImpl implements UserService {
             result.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
         return result;
+    }
+
+    @Override
+    public List<User> userList(int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        return userDao.findAllUsers();
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userDao.saveUser(user);
     }
 }

@@ -74,7 +74,7 @@
                 <ul class="treeview-menu">
 
                     <li id="user-manage">
-                        <a href="all-admin-login.html">
+                        <a href="${pageContext.request.contextPath}/user/userList">
                             <i class="fa fa-circle-o"></i> 用户管理
                         </a>
                     </li>
