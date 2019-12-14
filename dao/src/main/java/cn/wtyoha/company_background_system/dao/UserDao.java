@@ -30,4 +30,10 @@ public interface UserDao {
 
     @Update("delete from user where id = #{id}")
     void deleteUer(String id);
+
+    @Update("update user set status = 1 where id = #{id}")
+    void openUser(String id);
+
+    @Update("update user set status = 0 where id = #{id}")
+    void closeUser(String id);
 }

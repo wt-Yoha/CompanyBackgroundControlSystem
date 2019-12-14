@@ -130,17 +130,17 @@
                 form.prop("action", "${pageContext.request.contextPath}/product/deleteList");
                 form.submit();
             }
-        } function openProduct() {
+        } function openUser() {
             if (confirm("你确认要开启吗？")) {
-                var form = $("#productList");
-                form.prop("action", "${pageContext.request.contextPath}/product/availableProduct?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}&isOpen=true");
+                var form = $("#updateUserList");
+                form.prop("action", "${pageContext.request.contextPath}/user/availableUser?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}&isOpen=true");
                 form.submit();
             }
         }
-        function closeProduct() {
+        function closeUser() {
             if (confirm("你确认要关闭吗？")) {
-                var form = $("#productList");
-                form.prop("action", "${pageContext.request.contextPath}/product/availableProduct?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}");
+                var form = $("#updateUserList");
+                form.prop("action", "${pageContext.request.contextPath}/user/availableUser?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}");
                 form.submit();
             }
         }
@@ -207,10 +207,10 @@
                                             onclick='deleteList()'><i class="fa fa-trash-o"></i> 删除
                                     </button>
                                     <button type="button" class="btn btn-default" title="开启"
-                                            onclick='openProduct()'><i class="fa fa-check"></i> 开启
+                                            onclick='openUser()'><i class="fa fa-check"></i> 开启
                                     </button>
                                     <button type="button" class="btn btn-default" title="关闭"
-                                            onclick='closeProduct()'><i class="fa fa-ban"></i>关闭
+                                            onclick='closeUser()'><i class="fa fa-ban"></i>关闭
                                     </button>
                                     <button type="button" class="btn btn-default" title="刷新"
                                             onclick="location.href='${pageContext.request.contextPath}/user/userList?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}'">
@@ -228,7 +228,7 @@
                         <!--工具栏/-->
 
                         <!--数据列表-->
-                        <form id="productList" method="post">
+                        <form id="updateUserList" method="post">
                             <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                                 <thead>
                                 <tr style="font-size: 12px">
@@ -264,7 +264,6 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
-
                                 </tbody>
                                 <!--
                             </tfoot>-->

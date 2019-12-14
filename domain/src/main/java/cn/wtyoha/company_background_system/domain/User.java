@@ -80,9 +80,9 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
         if (status == 1) {
-            statusStr = "未开启";
-        } else {
             statusStr = "开启";
+        } else {
+            statusStr = "未开启";
         }
     }
 

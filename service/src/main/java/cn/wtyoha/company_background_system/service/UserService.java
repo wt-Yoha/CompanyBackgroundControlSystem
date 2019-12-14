@@ -11,4 +11,8 @@ public interface UserService extends UserDetailsService {
     List<User> userList(int currentPage, int pageSize);
 
     void saveUser(User user);
+
+    void openUserList(String[] ids);
+
+    void closeUserList(String[] ids);
 }

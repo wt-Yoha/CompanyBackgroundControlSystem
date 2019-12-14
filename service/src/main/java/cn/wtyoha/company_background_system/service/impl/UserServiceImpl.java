@@ -49,4 +49,18 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
         userDao.saveUser(user);
     }
+
+    @Override
+    public void openUserList(String[] ids) {
+        for (String id : ids) {
+            userDao.openUser(id);
+        }
+    }
+
+    @Override
+    public void closeUserList(String[] ids) {
+        for (String id : ids) {
+            userDao.closeUser(id);
+        }
+    }
 }

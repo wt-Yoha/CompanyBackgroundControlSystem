@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -50,4 +51,18 @@ public class UserController {
         return "userNew";
     }
 
+    @RequestMapping("/availableUser")
+    public String availableUser(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+                                @RequestParam(value = "size", defaultValue = "10") int pageSize,
+                                @RequestParam(value = "isOpen", defaultValue = "false") boolean isOpen,
+                                HttpServletRequest request){
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        String[] ids = parameterMap.get("id");
+        if (isOpen) {
+            userService.openUserList(ids);
+        } else {
+            userService.closeUserList(ids);
+        }
+        return "redirect:userList?currentPage="+currentPage+"&size="+pageSize;
+    }
 }
