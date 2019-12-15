@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface RoleSerVice {
     List<Role> showRoleList(int currentPage, int pageSize);
+
+    void saveRole(Role role);
+
+    void deleteRoles(String[] ids);
 }

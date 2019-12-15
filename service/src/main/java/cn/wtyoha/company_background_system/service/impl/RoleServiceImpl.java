@@ -23,4 +23,16 @@ public class RoleServiceImpl implements RoleSerVice {
         PageHelper.startPage(currentPage, pageSize);
         return roleDao.findAllRoles();
     }
+
+    @Override
+    public void saveRole(Role role) {
+        roleDao.saveRole(role);
+    }
+
+    @Override
+    public void deleteRoles(String[] ids) {
+        for (String id : ids) {
+            roleDao.deleteRole(id);
+        }
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/role")
@@ -34,5 +35,24 @@ public class RoleController {
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("roleList", pageInfo.getList());
         return "roleList";
+    }
+
+    @RequestMapping("/new")
+    public String newPageRole(){
+        return "roleNew";
+    }
+
+    @RequestMapping("/roleNew")
+    public String newRoleSubmit(Role role){
+        role.setId(UUID.randomUUID().toString().replace("-", ""));
+        roleSerVice.saveRole(role);
+        return "redirect:roleList";
+    }
+
+    @RequestMapping("/deleteList")
+    public String deleteList(HttpServletRequest request) {
+        String[] ids = request.getParameterMap().get("id");
+        roleSerVice.deleteRoles(ids);
+        return "redirect:roleList";
     }
 }

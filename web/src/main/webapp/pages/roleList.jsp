@@ -390,7 +390,7 @@
     $(document).ready(function () {
 
         // 激活导航位置
-        setSidebarActive("user-manage");
+        setSidebarActive("role-manage");
 
         // 列表按钮
         $("#dataList td input[type='checkbox']").iCheck({
