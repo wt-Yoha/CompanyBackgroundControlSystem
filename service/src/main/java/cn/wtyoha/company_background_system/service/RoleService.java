@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface RoleSerVice {
+public interface RoleService {
     List<Role> showRoleList(int currentPage, int pageSize);
 
     void saveRole(Role role);

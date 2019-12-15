@@ -1,8 +1,7 @@
 package cn.wtyoha.company_background_system.controller;
 
 import cn.wtyoha.company_background_system.domain.Role;
-import cn.wtyoha.company_background_system.domain.User;
-import cn.wtyoha.company_background_system.service.RoleSerVice;
+import cn.wtyoha.company_background_system.service.RoleService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +18,7 @@ import java.util.UUID;
 public class RoleController {
     @Autowired
     @Qualifier("roleServiceImpl")
-    RoleSerVice roleSerVice;
+    RoleService roleSerVice;
 
 
     @RequestMapping("/roleList")

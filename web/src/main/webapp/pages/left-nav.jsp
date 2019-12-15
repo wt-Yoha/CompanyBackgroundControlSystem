@@ -86,7 +86,7 @@
                     </li>
 
                     <li id="resource-authority">
-                        <a href="all-admin-404.html">
+                        <a href="${pageContext.request.contextPath}/permission/permissionList">
                             <i class="fa fa-circle-o"></i> 资源权限管理
                         </a>
                     </li>
