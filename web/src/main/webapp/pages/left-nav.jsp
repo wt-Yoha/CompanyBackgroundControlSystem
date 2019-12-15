@@ -80,7 +80,7 @@
                     </li>
 
                     <li id="role-manage">
-                        <a href="all-admin-register.html">
+                        <a href="${pageContext.request.contextPath}/role/roleList">
                             <i class="fa fa-circle-o"></i> 角色管理
                         </a>
                     </li>

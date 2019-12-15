@@ -65,4 +65,11 @@ public class UserController {
         }
         return "redirect:userList?currentPage="+currentPage+"&size="+pageSize;
     }
+
+    @RequestMapping("/deleteList")
+    public String deleteUserList(HttpServletRequest request) {
+        String[] ids = request.getParameterMap().get("id");
+        userService.deleteList(ids);
+        return "redirect:/user/userList";
+    }
 }

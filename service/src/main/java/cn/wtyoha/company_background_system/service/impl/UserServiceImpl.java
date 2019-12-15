@@ -63,4 +63,11 @@ public class UserServiceImpl implements UserService {
             userDao.closeUser(id);
         }
     }
+
+    @Override
+    public void deleteList(String[] ids) {
+        for (String id : ids) {
+            userDao.deleteUer(id);
+        }
+    }
 }

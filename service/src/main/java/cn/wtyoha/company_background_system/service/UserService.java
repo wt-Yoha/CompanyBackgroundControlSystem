@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
     void openUserList(String[] ids);
 
     void closeUserList(String[] ids);
+
+    void deleteList(String[] ids);
 }

@@ -127,26 +127,13 @@
         function deleteList() {
             if (confirm("你确认要删除吗？")) {
                 var form = $("#updateUserList");
-                form.prop("action", "${pageContext.request.contextPath}/user/deleteList");
-                form.submit();
-            }
-        } function openUser() {
-            if (confirm("你确认要开启吗？")) {
-                var form = $("#updateUserList");
-                form.prop("action", "${pageContext.request.contextPath}/user/availableUser?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}&isOpen=true");
-                form.submit();
-            }
-        }
-        function closeUser() {
-            if (confirm("你确认要关闭吗？")) {
-                var form = $("#updateUserList");
-                form.prop("action", "${pageContext.request.contextPath}/user/availableUser?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}");
+                form.prop("action", "${pageContext.request.contextPath}/role/deleteList");
                 form.submit();
             }
         }
         function changePageSize(indexs) {
             var size = $(indexs).val();
-            location.href="${pageContext.request.contextPath}/user/userList?currentPage=1&size="+size;
+            location.href="${pageContext.request.contextPath}/role/roleList?currentPage=1&size="+size;
         }
     </script>
 </head>
@@ -169,14 +156,14 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                用户管理
-                <small>用户列表</small>
+                角色管理
+                <small>角色列表</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/index.jsp"><i class="fa fa-dashboard"></i> 首页</a>
                 </li>
-                <li><a href="${pageContext.request.contextPath}/order/orderList">用户管理</a></li>
-                <li class="active">用户列表</li>
+                <li><a href="${pageContext.request.contextPath}/role/roleList">角色管理</a></li>
+                <li class="active">角色列表</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
@@ -199,21 +186,15 @@
                             <div class="form-group form-inline">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" title="新建"
-                                            onclick='location.href="${pageContext.request.contextPath}/user/new"'>
+                                            onclick='location.href="${pageContext.request.contextPath}/role/new"'>
                                         <i
                                                 class="fa fa-file-o"></i> 新建
                                     </button>
                                     <button type="button" class="btn btn-default" title="删除"
                                             onclick='deleteList()'><i class="fa fa-trash-o"></i> 删除
                                     </button>
-                                    <button type="button" class="btn btn-default" title="开启"
-                                            onclick='openUser()'><i class="fa fa-check"></i> 开启
-                                    </button>
-                                    <button type="button" class="btn btn-default" title="关闭"
-                                            onclick='closeUser()'><i class="fa fa-ban"></i>关闭
-                                    </button>
                                     <button type="button" class="btn btn-default" title="刷新"
-                                            onclick="location.href='${pageContext.request.contextPath}/user/userList?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}'">
+                                            onclick="location.href='${pageContext.request.contextPath}/role/roleList?currentPage=${pageInfo.pageNum}&size=${pageInfo.pageSize}'">
                                         <i class="fa fa-refresh"></i> 刷新
                                     </button>
                                 </div>
@@ -236,27 +217,22 @@
                                         <input id="selall" type="checkbox" class="icheckbox_square-blue">
                                     </th>
                                     <th class="sorting_asc">ID</th>
-                                    <th class="sorting" name="userName">用户名</th>
-                                    <th class="sorting" name="email">邮箱</th>
-                                    <th class="sorting" name="phoneNum">电话</th>
-                                    <th class="sorting" name="status">用户状态</th>
+                                    <th class="sorting" name="userName">角色名</th>
+                                    <th class="sorting" name="status">角色描述</th>
 
                                     <th class="text-center">操作</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${requestScope.userList}" var="user" varStatus="i">
+                                <c:forEach items="${requestScope.roleList}" var="role" varStatus="i">
                                     <tr style="font-size: 12px">
-<%--                                        <td><input name="productNum${i.count}" type="checkbox" value="${product.productNum}"></td>--%>
-                                        <td><input name="id" type="checkbox" value="${user.id}"></td>
+                                        <td><input name="id" type="checkbox" value="${role.id}"></td>
                                         <td>
                                                 ${i.count+(pageInfo.pageNum-1)*pageInfo.pageSize}
                                         </td>
-                                        <td>${user.userName}</td>
-                                        <td>${user.email}</td>
-                                        <td>${user.phoneNum}</td>
-                                        <td>${user.statusStr}</td>
+                                        <td>${role.roleName}</td>
+                                        <td>${role.roleDesc}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn bg-olive btn-xs"
                                                     onclick='location.href="productEdit.jsp"'>编辑详情
