@@ -1,5 +1,6 @@
 package cn.wtyoha.company_background_system.dao;
 
+import cn.wtyoha.company_background_system.domain.Role;
 import cn.wtyoha.company_background_system.domain.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -36,4 +37,13 @@ public interface UserDao {
 
     @Update("update user set status = 0 where id = #{id}")
     void closeUser(String id);
+
+    @Select("select * from role where id not in (select rid from user_role where uid = #{id})")
+    List<Role> findUnboundedRoles(String userId);
+
+    @Update("insert into user_role values(#{rid}, #{uid})")
+    void addRoleToUser(@Param("uid") String userId, @Param("rid") String roleId);
+
+    @Update("delete from user_role where uid=#{uid} and rid=#{rid}")
+    void removeRole(@Param("uid") String userId,@Param("rid") String roleId);
 }

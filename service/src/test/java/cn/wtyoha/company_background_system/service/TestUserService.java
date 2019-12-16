@@ -1,6 +1,7 @@
 package cn.wtyoha.company_background_system.service;
 
 import cn.wtyoha.company_background_system.dao.UserDao;
+import cn.wtyoha.company_background_system.domain.Role;
 import cn.wtyoha.company_background_system.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
 import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -64,6 +66,11 @@ public class TestUserService {
     @Test
     public void daoDeleteUser() {
         userDao.deleteUer(userDao.findByUserName("fox").getId());
+    }
+
+    @Test
+    public void daoFindUnboundedRoles() {
+        System.out.println(userDao.findUnboundedRoles("ee098dc105b511eab143087190f3bc94"));
     }
 
 

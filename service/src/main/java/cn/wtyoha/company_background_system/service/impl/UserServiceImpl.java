@@ -70,4 +70,29 @@ public class UserServiceImpl implements UserService {
             userDao.deleteUer(id);
         }
     }
+
+    @Override
+    public User findById(String userId) {
+        return userDao.findByUserId(userId);
+    }
+
+    @Override
+    public List<Role> findUnboundedRoles(String userId) {
+        return userDao.findUnboundedRoles(userId);
+    }
+
+    @Override
+    public void addRoleToUser(String userId, String roleId) {
+        userDao.addRoleToUser(userId, roleId);
+    }
+
+    @Override
+    public void removeRole(String userId, String roleId) {
+        userDao.removeRole(userId, roleId);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userDao.updateUser(user);
+    }
 }

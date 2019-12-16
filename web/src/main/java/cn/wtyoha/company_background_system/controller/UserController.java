@@ -1,9 +1,11 @@
 package cn.wtyoha.company_background_system.controller;
 
 import cn.wtyoha.company_background_system.domain.Order;
+import cn.wtyoha.company_background_system.domain.Role;
 import cn.wtyoha.company_background_system.domain.User;
 import cn.wtyoha.company_background_system.service.UserService;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -71,5 +73,37 @@ public class UserController {
         String[] ids = request.getParameterMap().get("id");
         userService.deleteList(ids);
         return "redirect:/user/userList";
+    }
+
+    @RequestMapping("/userEdit")
+    public String userEdit(String userId, HttpServletRequest request) {
+        User user = userService.findById(userId);
+        List<Role> unboundedRoles = userService.findUnboundedRoles(userId);
+        request.setAttribute("user", user);
+        request.setAttribute("avilableRoles", unboundedRoles);
+        return "userEdit";
+    }
+
+    @RequestMapping("/addRoleToUser")
+    public String addRoleToUser(String userId, String roleId){
+        userService.addRoleToUser(userId, roleId);
+        return "redirect:/user/userEdit?userId="+userId;
+    }
+
+    @RequestMapping("/removeRole")
+    public String removeRole(String userId, String roleId){
+        userService.removeRole(userId, roleId);
+        return "redirect:/user/userEdit?userId="+userId;
+    }
+
+    @RequestMapping("/userUpdate")
+    public String updateUser(User user){
+        userService.updateUser(user);
+        return "redirect:/user/userEdit?userId="+user.getId();
+    }
+
+    @RequestMapping("/test")
+    public String test() {
+        return "userEdit";
     }
 }

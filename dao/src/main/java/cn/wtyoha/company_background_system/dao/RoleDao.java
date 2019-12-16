@@ -29,6 +29,7 @@ public interface RoleDao {
     void deleteRole(String id);
 
     @Select("select * from role where id in (select rid from user_role where uid = #{uid}) ")
+    @ResultMap("permissionListMap")
     List<Role> findByUserId(String uid);
 
     @Select("select * from role where id in (select rid from role_permission where pid = #{pid})")
