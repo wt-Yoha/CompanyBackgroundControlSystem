@@ -67,7 +67,8 @@ public class RoleController {
 
     @RequestMapping("/addPermToRole")
     public String addPermToRole(String roleId, String permId){
-        roleService.addPermToRole(roleId, permId);
+        if (!("".equals(permId)||permId==null))
+            roleService.addPermToRole(roleId, permId);
         return "redirect:/role/roleEdit?roleId="+roleId;
     }
 
