@@ -1,5 +1,6 @@
 package cn.wtyoha.company_background_system.dao;
 
+import cn.wtyoha.company_background_system.domain.Permission;
 import cn.wtyoha.company_background_system.domain.Role;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -34,4 +35,13 @@ public interface RoleDao {
 
     @Select("select * from role where id in (select rid from role_permission where pid = #{pid})")
     List<Role> findByPermissionId(String pid);
+
+    @Select("select * from permission where id not in (select pid from role_permission where rid = #{roleId})")
+    List<Permission> findUnboundedPermissions(String roleId);
+
+    @Update("insert into role_permission values(#{rid}, #{pid})")
+    void addPermToRole(@Param("rid") String roleId, @Param("pid") String permId);
+
+    @Update("delete from role_permission where rid = #{rid} and pid = #{pid}")
+    void removePerm(@Param("rid") String roleId, @Param("pid") String permId);
 }

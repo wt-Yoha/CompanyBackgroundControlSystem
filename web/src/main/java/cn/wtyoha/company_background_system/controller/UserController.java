@@ -104,6 +104,6 @@ public class UserController {
 
     @RequestMapping("/test")
     public String test() {
-        return "userEdit";
+        return "roleEdit";
     }
 }

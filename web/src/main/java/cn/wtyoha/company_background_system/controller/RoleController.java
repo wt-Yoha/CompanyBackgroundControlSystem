@@ -1,5 +1,6 @@
 package cn.wtyoha.company_background_system.controller;
 
+import cn.wtyoha.company_background_system.domain.Permission;
 import cn.wtyoha.company_background_system.domain.Role;
 import cn.wtyoha.company_background_system.service.RoleService;
 import com.github.pagehelper.PageInfo;
@@ -18,14 +19,14 @@ import java.util.UUID;
 public class RoleController {
     @Autowired
     @Qualifier("roleServiceImpl")
-    RoleService roleSerVice;
+    RoleService roleService;
 
 
     @RequestMapping("/roleList")
     public String roleList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                            HttpServletRequest request) {
-        List<Role> roles = roleSerVice.showRoleList(currentPage, pageSize);
+        List<Role> roles = roleService.showRoleList(currentPage, pageSize);
         PageInfo<Role> pageInfo = new PageInfo<>(roles);
         int startPageNo = currentPage - 5 > 0 ? currentPage - 5 : 1;
         int endPageNo = Math.min(10 - startPageNo, pageInfo.getPages());
@@ -44,14 +45,42 @@ public class RoleController {
     @RequestMapping("/roleNew")
     public String newRoleSubmit(Role role){
         role.setId(UUID.randomUUID().toString().replace("-", ""));
-        roleSerVice.saveRole(role);
+        roleService.saveRole(role);
         return "redirect:roleList";
     }
 
     @RequestMapping("/deleteList")
     public String deleteList(HttpServletRequest request) {
         String[] ids = request.getParameterMap().get("id");
-        roleSerVice.deleteRoles(ids);
+        roleService.deleteRoles(ids);
         return "redirect:roleList";
     }
+
+    @RequestMapping("/roleEdit")
+    public String roleEdit(String roleId, HttpServletRequest request){
+        Role role = roleService.findById(roleId);
+        List<Permission> unboundedPerm = roleService.findUnboundedPermissions(roleId);
+        request.setAttribute("role", role);
+        request.setAttribute("avilablePerm", unboundedPerm);
+        return "roleEdit";
+    }
+
+    @RequestMapping("/addPermToRole")
+    public String addPermToRole(String roleId, String permId){
+        roleService.addPermToRole(roleId, permId);
+        return "redirect:/role/roleEdit?roleId="+roleId;
+    }
+
+    @RequestMapping("/removePerm")
+    public String removePerm(String roleId, String permId){
+        roleService.removePerm(roleId, permId);
+        return "redirect:/role/roleEdit?roleId="+roleId;
+    }
+
+    @RequestMapping("/roleUpdate")
+    public String roleUpdate(Role role){
+        roleService.updateRole(role);
+        return "redirect:/role/roleEdit?roleId="+role.getId();
+    }
+
 }
