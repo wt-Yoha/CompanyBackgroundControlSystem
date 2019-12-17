@@ -1,6 +1,7 @@
 package cn.wtyoha.company_background_system.service.impl;
 
 import cn.wtyoha.company_background_system.dao.UserDao;
+import cn.wtyoha.company_background_system.dao.User_RoleDao;
 import cn.wtyoha.company_background_system.domain.Role;
 import cn.wtyoha.company_background_system.domain.User;
 import cn.wtyoha.company_background_system.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +49,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.saveUser(user);
     }
 
@@ -67,6 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteList(String[] ids) {
         for (String id : ids) {
+            userDao.deleteBoundedRole(id);
             userDao.deleteUer(id);
         }
     }

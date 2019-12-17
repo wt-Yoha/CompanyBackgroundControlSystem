@@ -188,9 +188,9 @@
                             <input type="text" class="form-control" name="phoneNum" value="${user.phoneNum}">
                         </div>
 
-                        <div class="col-md-2 title">密码</div>
+                        <div class="col-md-2 title">状态</div>
                         <div class="col-md-4 data text">
-                            <input type="text" class="form-control" name="password" value="${user.password}">
+                            <input type="text" class="form-control" name="password" value="${user.statusStr}">
                         </div>
                     </div>
                 </div>

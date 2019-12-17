@@ -46,4 +46,7 @@ public interface UserDao {
 
     @Update("delete from user_role where uid=#{uid} and rid=#{rid}")
     void removeRole(@Param("uid") String userId,@Param("rid") String roleId);
+
+    @Update("delete from user_role where uid = #{uid}")
+    void deleteBoundedRole(String uid);
 }
