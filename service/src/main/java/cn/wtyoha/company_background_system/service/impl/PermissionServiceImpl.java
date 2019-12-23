@@ -33,4 +33,19 @@ public class PermissionServiceImpl implements PermissionService {
             permissionDao.deletePermission(id);
         }
     }
+
+    @Override
+    public Permission findById(String permId) {
+        return permissionDao.findById(permId);
+    }
+
+    @Override
+    public void updatePermission(Permission permission) {
+        permissionDao.updatePermission(permission);
+    }
+
+    @Override
+    public List<Permission> findAll() {
+        return permissionDao.findAllPermission();
+    }
 }

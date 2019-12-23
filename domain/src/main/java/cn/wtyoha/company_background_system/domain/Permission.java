@@ -1,6 +1,8 @@
 package cn.wtyoha.company_background_system.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 public class Permission {
     String id;
@@ -41,6 +43,19 @@ public class Permission {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Permission that = (Permission) o;
+        return Objects.equals(url, that.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url);
+    }
+
+    @Override
     public String toString() {
         return "Permission{" +
                 "id='" + id + '\'' +
@@ -48,5 +63,16 @@ public class Permission {
                 ", url='" + url + '\'' +
                 ", roleList=" + roleList +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        Permission p1 = new Permission();
+        Permission p2 = new Permission();
+        p1.setUrl("user/new");
+        p2.setUrl("user/new");
+        HashSet<Permission> s = new HashSet<>();
+        s.add(p1);
+        boolean contains = s.contains(p2);
+        System.out.println(p1.equals(p2));
     }
 }

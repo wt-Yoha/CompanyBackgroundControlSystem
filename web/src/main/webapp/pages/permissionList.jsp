@@ -235,7 +235,7 @@
                                         <td>${permission.url}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn bg-olive btn-xs"
-                                                    onclick='location.href="productEdit.jsp"'>编辑详情
+                                                    onclick='location.href="${pageContext.request.contextPath}/permission/permissionEdit?permId=${permission.id}"'>编辑详情
                                             </button>
                                         </td>
                                     </tr>

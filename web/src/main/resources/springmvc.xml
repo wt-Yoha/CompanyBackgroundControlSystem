@@ -15,6 +15,7 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <context:component-scan base-package="cn.wtyoha.company_background_system.controller"/>
+    <context:component-scan base-package="cn.wtyoha.company_background_system.interceptor"/>
 
 <!--    配置视图解析器-->
     <bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -29,5 +30,21 @@
     <mvc:resources mapping="/css/**" location="/css/"/>
     <mvc:resources mapping="/img/**" location="/img/"/>
     <mvc:resources mapping="/plugins/**" location="/plugins/"/>
+<!--    <bean id="authorityVerifyInterceptor" class="cn.wtyoha.company_background_system.interceptor.AuthorityVerifyInterceptor">-->
+<!--        <property name="permissionService" ref="permissionServiceImpl"/>-->
+<!--        <property name="userService" ref="userServiceImpl"/>-->
+<!--    </bean>-->
+
+<!--    配置权限识别拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/authorityError"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <mvc:exclude-mapping path="/plugins/**"/>
+            <mvc:exclude-mapping path="/img/**"/>
+            <ref bean="authorityVerifyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>

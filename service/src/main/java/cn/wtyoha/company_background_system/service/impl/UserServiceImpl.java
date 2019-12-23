@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userDao.findByUserName(s);
         List<SimpleGrantedAuthority> authorities = getAuthorities(user);
-        System.out.println(user);
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
                 user.getStatus() != 0, true, true, true,
                 authorities);
@@ -99,5 +98,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) {
         userDao.updateUser(user);
+    }
+
+    @Override
+    public User findByName(String name) {
+        return userDao.findByUserName(name);
     }
 }

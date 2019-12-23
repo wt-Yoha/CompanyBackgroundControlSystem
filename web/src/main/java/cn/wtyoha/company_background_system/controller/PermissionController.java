@@ -6,6 +6,8 @@ import cn.wtyoha.company_background_system.service.PermissionService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +50,19 @@ public class PermissionController {
         permission.setId(UUID.randomUUID().toString().replace("-", ""));
         permissionService.savePermission(permission);
         return "redirect:/permission/permissionList";
+    }
+
+    @RequestMapping("/permissionEdit")
+    public String permissionEdit(String permId, HttpServletRequest request) {
+        Permission permission = permissionService.findById(permId);
+        request.setAttribute("permission", permission);
+        return "permissionEdit";
+    }
+
+    @RequestMapping("/permissionUpdate")
+    public String permissionUpdate(Permission permission) {
+        permissionService.updatePermission(permission);
+        return "redirect:/permission/permissionEdit?permId="+permission.getId();
     }
 
     @RequestMapping("/deleteList")

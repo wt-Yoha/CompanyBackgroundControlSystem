@@ -1,0 +1,4 @@
+/role/addPermToRole
+/user/addRoleToUser
+/user/removeRole
+/role/removePerm

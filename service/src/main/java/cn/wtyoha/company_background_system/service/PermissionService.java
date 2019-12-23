@@ -10,4 +10,10 @@ public interface PermissionService {
     void savePermission(Permission permission);
 
     void deleteList(String[] ids);
+
+    Permission findById(String permId);
+
+    void updatePermission(Permission permission);
+
+    List<Permission> findAll();
 }

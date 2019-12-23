@@ -28,4 +28,6 @@ public interface UserService extends UserDetailsService {
     void removeRole(String userId, String roleId);
 
     void updateUser(User user);
+
+    User findByName(String name);
 }
