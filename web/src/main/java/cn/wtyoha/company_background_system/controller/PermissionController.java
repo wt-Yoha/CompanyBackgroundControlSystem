@@ -25,8 +25,8 @@ public class PermissionController {
 
 
     @RequestMapping("/permissionList")
-    public String permissionList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+    public String permissionList(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                                  HttpServletRequest request) {
 
         List<Permission> permissions = permissionService.showPermissionList(currentPage, pageSize);

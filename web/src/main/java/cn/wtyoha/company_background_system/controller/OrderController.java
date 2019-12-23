@@ -37,8 +37,8 @@ public class OrderController {
     MemberService memberService;
 
     @RequestMapping("/orderList")
-    public String showOrderList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-                                @RequestParam(value = "size", defaultValue = "10") int pageSize,
+    public String showOrderList(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                @RequestParam(value = "size", defaultValue = "10") Integer pageSize,
                                 HttpServletRequest request) {
 
         List<Order> orders = orderService.findAll(currentPage, pageSize);
@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @RequestMapping("/showOrderDetailsById")
-    public String showOrderDetailsById(@RequestParam(value = "edit", defaultValue = "false") boolean edit, String id, HttpServletRequest request) {
+    public String showOrderDetailsById(@RequestParam(value = "edit", defaultValue = "false") Boolean edit, String id, HttpServletRequest request) {
         Order order = orderService.findById(id);
         request.setAttribute("order", order);
         if (edit) {

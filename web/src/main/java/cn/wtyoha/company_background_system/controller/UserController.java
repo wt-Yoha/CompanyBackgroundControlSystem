@@ -26,8 +26,8 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/userList")
-    public String userList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-                           @RequestParam(value = "size", defaultValue = "10") int pageSize,
+    public String userList(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                           @RequestParam(value = "size", defaultValue = "10") Integer pageSize,
                            HttpServletRequest request) {
         List<User> users = userService.userList(currentPage, pageSize);
         PageInfo<User> pageInfo = new PageInfo<>(users);
@@ -54,9 +54,9 @@ public class UserController {
     }
 
     @RequestMapping("/availableUser")
-    public String availableUser(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-                                @RequestParam(value = "size", defaultValue = "10") int pageSize,
-                                @RequestParam(value = "isOpen", defaultValue = "false") boolean isOpen,
+    public String availableUser(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                @RequestParam(value = "size", defaultValue = "10") Integer pageSize,
+                                @RequestParam(value = "isOpen", defaultValue = "false") Boolean isOpen,
                                 HttpServletRequest request){
         Map<String, String[]> parameterMap = request.getParameterMap();
         String[] ids = parameterMap.get("id");

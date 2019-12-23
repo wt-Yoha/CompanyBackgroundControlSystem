@@ -23,8 +23,8 @@ public class RoleController {
 
 
     @RequestMapping("/roleList")
-    public String roleList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-                           @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+    public String roleList(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                            HttpServletRequest request) {
         List<Role> roles = roleService.showRoleList(currentPage, pageSize);
         PageInfo<Role> pageInfo = new PageInfo<>(roles);

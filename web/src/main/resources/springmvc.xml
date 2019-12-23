@@ -17,14 +17,18 @@
     <context:component-scan base-package="cn.wtyoha.company_background_system.controller"/>
     <context:component-scan base-package="cn.wtyoha.company_background_system.interceptor"/>
 
+    <!--     配置 springMVC 注解支持-->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 要使用aop控制controller时候此处和spring的配置文件中必须添加-->
+    <mvc:annotation-driven/>
+
 <!--    配置视图解析器-->
     <bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-<!--     配置 springMVC 注解支持-->
-    <mvc:annotation-driven/>
 
 <!--    配置静态资源不过滤-->
     <mvc:resources mapping="/css/**" location="/css/"/>

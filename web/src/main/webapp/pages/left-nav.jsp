@@ -92,7 +92,7 @@
                     </li>
 
                     <li id="view-log">
-                        <a href="all-admin-500.html">
+                        <a href="${pageContext.request.contextPath}/sysLog/sysLogList">
                             <i class="fa fa-circle-o"></i> 访问日志
                         </a>
                     </li>
