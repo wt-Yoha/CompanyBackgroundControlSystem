@@ -42,8 +42,12 @@ public class AuthorityVerifyInterceptor extends HandlerInterceptorAdapter {
     }
 
     void getUserPrivileges(HttpServletRequest request){
-        User loginUser = userService.findByName(request.getUserPrincipal().getName());
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        loginUser = userService.findByName(loginUser.getUserName());
         privileges = new HashSet<>();
+        if (loginUser == null) {
+            return;
+        }
         for (Role role : loginUser.getRoleList()) {
             for (Permission permission : role.getPermissionList()) {
                 permission.setUrl(request.getContextPath()+permission.getUrl());

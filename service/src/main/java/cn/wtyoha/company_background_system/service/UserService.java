@@ -30,4 +30,6 @@ public interface UserService extends UserDetailsService {
     void updateUser(User user);
 
     User findByName(String name);
+
+    User verifyUser(String username, String password);
 }

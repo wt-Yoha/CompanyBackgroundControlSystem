@@ -43,10 +43,15 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/user/loginPage"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <ref bean="loginVerify"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <mvc:exclude-mapping path="/user/loginPage"/>
             <mvc:exclude-mapping path="/authorityError"/>
-            <mvc:exclude-mapping path="/css/**"/>
-            <mvc:exclude-mapping path="/plugins/**"/>
-            <mvc:exclude-mapping path="/img/**"/>
             <ref bean="authorityVerifyInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

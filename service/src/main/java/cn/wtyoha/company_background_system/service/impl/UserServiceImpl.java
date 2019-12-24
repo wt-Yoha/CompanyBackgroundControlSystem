@@ -23,6 +23,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
 
+    // 不使用 spring-security 实现的登录身份验证
+    @Override
+    public User verifyUser(String s, String password){
+        User user = userDao.findByUserName(s);
+        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+        if (user!=null && bc.matches(password, user.getPassword())) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userDao.findByUserName(s);

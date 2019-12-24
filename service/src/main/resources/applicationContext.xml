@@ -2,7 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -12,9 +11,7 @@
 	   http://www.springframework.org/schema/aop
 	   http://www.springframework.org/schema/aop/spring-aop.xsd
 	   http://www.springframework.org/schema/tx
-	   http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://www.springframework.org/schema/security
-       http://www.springframework.org/schema/security/spring-security.xsd">
+	   http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="cn.wtyoha.company_background_system.service"/>
     <context:component-scan base-package="cn.wtyoha.company_background_system.dao"/>
@@ -56,29 +53,5 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
-
-<!--    配置 SpringSecurity 权限控制 -->
-    <security:http security="none" pattern="/pages/login.jsp"/>
-    <security:http security="none" pattern="/pages/fail.jsp"/>
-    <security:http security="none" pattern="/css/**"/>
-    <security:http security="none" pattern="/plugins/**"/>
-    <security:http security="none" pattern="/img/**"/>
-
-    <security:http auto-config="true" use-expressions="false">
-        <security:intercept-url pattern="/**" access="ROLE_USER"/>
-        <security:form-login login-page="/pages/login.jsp" login-processing-url="/login" username-parameter="username" password-parameter="password"
-                             default-target-url="/pages/fail.jsp" authentication-failure-url="/pages/fail.jsp" authentication-success-forward-url="/pages/all-admin-index.jsp"/>
-        <security:logout logout-url="/logout" invalidate-session="true" logout-success-url="/pages/login.jsp"/>
-        <security:csrf disabled="true"/>
-    </security:http>
-
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-
-    <security:authentication-manager>
-        <security:authentication-provider user-service-ref="userServiceImpl">
-            <security:password-encoder ref="passwordEncoder"/>
-        </security:authentication-provider>
-    </security:authentication-manager>
-
 </beans>

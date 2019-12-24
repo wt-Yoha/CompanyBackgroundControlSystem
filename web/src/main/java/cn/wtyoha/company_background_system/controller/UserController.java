@@ -25,6 +25,26 @@ public class UserController {
     @Qualifier("userServiceImpl")
     UserService userService;
 
+    @RequestMapping("/index")
+    public String indexPage() {
+        return "all-admin-index";
+    }
+
+    @RequestMapping("/loginPage")
+    public String loginPage(){
+        return "login";
+    }
+
+    @RequestMapping("/login")
+    public String loginSubmit(String username, String password, HttpServletRequest request){
+        User user = userService.verifyUser(username, password);
+        if (user != null) {
+            request.getSession().setAttribute("loginUser", user);
+            return "all-admin-index";
+        }
+        return "fail";
+    }
+
     @RequestMapping("/userList")
     public String userList(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                            @RequestParam(value = "size", defaultValue = "10") Integer pageSize,

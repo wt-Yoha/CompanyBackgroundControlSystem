@@ -2,6 +2,7 @@ package cn.wtyoha.company_background_system.aop;
 
 import cn.wtyoha.company_background_system.controller.SysLogController;
 import cn.wtyoha.company_background_system.domain.SysLog;
+import cn.wtyoha.company_background_system.domain.User;
 import cn.wtyoha.company_background_system.service.SysLogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -45,7 +46,10 @@ public class SysLogAop {
         } else {
             Class[] methodArgs = new Class[args.length];
             for (int i = 0; i < methodArgs.length; i++) {
-                if ("org.springframework.security.web.servletapi.HttpServlet3RequestFactory$Servlet3SecurityContextHolderAwareRequestWrapper".equals(args[i].getClass().getName()))
+                Class<?> aClass = args[i].getClass();
+                boolean b = args[i] instanceof HttpServletRequest;
+                boolean b2 = args[i].getClass().isAssignableFrom(HttpServletRequest.class);
+                if (args[i] instanceof HttpServletRequest)
                     methodArgs[i] = HttpServletRequest.class;
                 else
                     methodArgs[i] = args[i].getClass();
@@ -69,8 +73,12 @@ public class SysLogAop {
                 sysLog.setExecuteTime(executeTime);
                 String ip = request.getRemoteAddr();
                 sysLog.setIp(ip);
-                String userName = request.getUserPrincipal().getName();
-                sysLog.setUserName(userName);
+//                String userName = request.getUserPrincipal().getName();
+                User user = (User) request.getSession().getAttribute("loginUser");
+                if (user != null) {
+                    String userName = user.getUserName();
+                    sysLog.setUserName(userName);
+                }
                 sysLog.setMethod("[类名]"+executeClass.getName()+" [方法名]"+executeMethod.getName());
                 sysLogService.save(sysLog);
             }
