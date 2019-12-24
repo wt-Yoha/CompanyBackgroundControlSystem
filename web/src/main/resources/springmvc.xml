@@ -16,6 +16,7 @@
 
     <context:component-scan base-package="cn.wtyoha.company_background_system.controller"/>
     <context:component-scan base-package="cn.wtyoha.company_background_system.interceptor"/>
+    <context:component-scan base-package="cn.wtyoha.company_background_system.exceptcontrol"/>
 
     <!--     配置 springMVC 注解支持-->
     <aop:aspectj-autoproxy/>

@@ -94,7 +94,7 @@ public class ProductController {
         }
     }
     @RequestMapping("/deleteList")
-    public String deleteList(HttpServletRequest request) {
+    public String deleteList(HttpServletRequest request) throws Exception {
         Map<String, String[]> parameterMap = request.getParameterMap();
         boolean resultFlag = true;
         try {
@@ -102,6 +102,7 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
             resultFlag = false;
+            throw new Exception(e);
         }
         if (resultFlag) {
             request.setAttribute("msg", "删除成功！");

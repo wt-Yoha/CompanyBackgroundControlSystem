@@ -130,12 +130,12 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    权限错误
+                    服务器运行异常
                 </h1>
 
                 <ol class="breadcrumb">
                     <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                    <li class="active">404 错误</li>
+                    <li class="active">操作执行错误</li>
                 </ol>
 
             </section>
@@ -144,7 +144,11 @@
             <section class="content">
                 <div class="error-page">
                     <div style="margin-left: 0px" class="error-content">
-                        <h3><i class="fa fa-warning text-yellow"></i> 抱歉，您没有进行该操作的权限</h3>
+                        <h3><i class="fa fa-warning text-yellow"></i> 抱歉，该操作执行出现异常，请联系管理员修复</h3>
+                        <br>
+                        <h5>错误信息：</h5>
+                        <br>
+                        <p>${errorMsg}</p>
                     </div>
                     <!-- /.error-content -->
                 </div>

@@ -194,7 +194,6 @@
                                     <th class="sorting" name="userName">执行时间</th>
                                     <th class="sorting" name="userName">执行方法</th>
 
-                                    <th class="text-center">操作</th>
                                 </tr>
                                 </thead>
 
