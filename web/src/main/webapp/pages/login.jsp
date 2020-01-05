@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -23,6 +22,9 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+    <script type="text/javascript" src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../plugins/iCheck/icheck.min.js"></script>
 
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
@@ -73,9 +75,7 @@
     <!-- jQuery 2.2.3 -->
     <!-- Bootstrap 3.3.6 -->
     <!-- iCheck -->
-    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../plugins/iCheck/icheck.min.js"></script>
+
     <script>
         $(function() {
             $('input').iCheck({
